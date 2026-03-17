@@ -867,7 +867,7 @@
       <summary>Technical highlights</summary>
       <div class="exp-expand">
         <ul class="highlight-list">
-          <li><strong>Memory &amp; Data Optimization:</strong> Refactored local data handling workflows to move component processing from synchronous server-side fetching to an optimized local caching layer, reducing latency for symbol manipulation.</li>
+          <li><strong>Memory &amp; Data Optimization:</strong> Architected a local caching layer for asynchronous component processing, replacing legacy synchronous server-side fetches to eliminate UI blocking during large-scale symbol manipulation.</li>
           <li><strong>Production C++ at Scale:</strong> Leveraged Qt and Tcl within a massive legacy codebase, ensuring features met the rigorous stability requirements for Release 23.1.</li>
           <li><strong>Hardware-Software Awareness:</strong> Worked directly with constraints of EDA flows where software abstractions define the synthesis of physical silicon, bridging the gap between high-level GUI operations and low-level hardware description.</li>
         </ul>
