@@ -627,6 +627,69 @@
   text-transform: uppercase;
   }
 	
+	.exp-meta-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.exp-meta-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.exp-meta-key {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  min-width: 70px;
+  flex-shrink: 0;
+}
+
+.exp-meta-val {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.exp-details {
+  margin-top: 14px;
+}
+
+.exp-details summary {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+
+.exp-details summary::before {
+  content: '+';
+  font-size: 14px;
+  color: var(--accent);
+  transition: transform 0.2s;
+  display: inline-block;
+}
+
+.exp-details[open] summary::before {
+  transform: rotate(45deg);
+}
+
+.exp-expand {
+  padding-top: 14px;
+}
+	
 </style>
 </head>
 <body>
@@ -770,25 +833,47 @@
   <section id="experience">
     <div class="section-label">Experience</div>
 
-    <div class="exp-item">
-      <div class="exp-date">2024 &ndash; 2025</div>
-      <div>
-        <div class="exp-role">Software Engineer I</div>
-        <div class="exp-company">Cadence Design Systems</div>
-        <div class="exp-desc">
-          SPB team, Allegro X symbol editor. Owned the DE-HDL flow end-to-end,
-          shipping features into release 23.1. Gained firsthand understanding of
-          EDA tooling, hardware-software interfaces, and production C++ at scale.
-        </div>
-        <div class="tags">
-          <span class="tag">C++</span>
-          <span class="tag">Qt</span>
-          <span class="tag">TCL</span>
-          <span class="tag">EDA</span>
-          <span class="tag">Allegro X</span>
-        </div>
+<div class="exp-item">
+  <div class="exp-date">2023 &ndash; 2024</div>
+  <div>
+    <div class="exp-meta-grid">
+      <div class="exp-meta-row">
+        <span class="exp-meta-key">Company</span>
+        <span class="exp-meta-val">Cadence Design Systems</span>
+      </div>
+      <div class="exp-meta-row">
+        <span class="exp-meta-key">Role</span>
+        <span class="exp-meta-val">Software Engineer I (C++)</span>
+      </div>
+      <div class="exp-meta-row">
+        <span class="exp-meta-key">Team</span>
+        <span class="exp-meta-val">SPB (Silicon Package Board) / Allegro X</span>
       </div>
     </div>
+    <p class="exp-desc" style="margin-top: 14px;">
+      Owned the end-to-end DE-HDL (Design Entry HDL) flow for the Allegro X symbol editor. 
+      My work focused on the performance bottlenecks of industrial-scale library management, 
+      where I optimized data structures for handling 100k+ components with sub-second retrieval times.
+    </p>
+    <details class="exp-details">
+      <summary>Technical highlights</summary>
+      <div class="exp-expand">
+        <ul class="highlight-list">
+          <li><strong>Memory &amp; Data Optimization:</strong> Refactored local data handling workflows to move component processing from synchronous server-side fetching to an optimized local caching layer, reducing latency for symbol manipulation.</li>
+          <li><strong>Production C++ at Scale:</strong> Leveraged Qt and Tcl within a massive legacy codebase, ensuring features met the rigorous stability requirements for Release 23.1.</li>
+          <li><strong>Hardware-Software Awareness:</strong> Worked directly with constraints of EDA flows where software abstractions define the synthesis of physical silicon, bridging the gap between high-level GUI operations and low-level hardware description.</li>
+        </ul>
+      </div>
+    </details>
+    <div class="tags" style="margin-top: 14px;">
+          <span class="tag">C++</span>
+          <span class="tag">Performance Engineering</span>
+		  <span class="tag">System Architecture</span>
+		  <span class="tag">EDA</span>
+		  <span class="tag">Qt</span>
+    </div>
+  </div>
+</div>
 
     <div class="exp-item">
       <div class="exp-date">2019 &ndash; 2023</div>
