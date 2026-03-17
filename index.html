@@ -133,6 +133,18 @@
     gap: 12px;
     flex-wrap: wrap;
   }
+  .hero-subtitle {
+  font-size: 15px;
+  color: var(--muted);
+  margin-bottom: 20px;
+  letter-spacing: 0.01em;
+	}
+
+.hero-rule {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 24px 0;
+}
 
   .btn {
     display: inline-flex;
@@ -376,13 +388,22 @@
 <div class="container">
 
   <section class="hero">
-    <div class="hero-label">Independent Researcher, Delhi</div>
-    <h1>Shivansh<br><em>Pratap Singh</em></h1>
-    <p class="hero-bio">
-      I build AI systems that run on hardware that costs less than a meal.
-      Former software engineer at Cadence Design Systems.
-      Currently applying to EPFL MSc Computer Science.
-    </p>
+<div class="hero-label">Independent Researcher, Delhi</div>
+<h1>Shrivansh<br><em>Pratap Singh</em></h1>
+<p class="hero-subtitle">Software Engineer &amp; Independent Researcher focusing on the Hardware-Software Interface</p>
+<hr class="hero-rule">
+<p class="hero-bio">
+  I build software that bridges the gap between high-level algorithms and physical silicon. 
+  My experience ranges from engineering industrial-scale EDA tooling in C++ at Cadence Design 
+  Systems to researching performant TinyML inference for ultra-constrained, sub-$15 hardware.
+</p>
+<p class="hero-bio">
+  I am driven by the philosophy that software abstractions must be hardware-aware. Currently, 
+  I am extending embedded toolchains (TFLite Micro) to enable on-device learning and exploring 
+  how machine learning can optimize VLSI design flows. I am actively seeking a Master's at EPFL 
+  to deepen my expertise in computer architecture and hardware-software co-design.
+</p>
+<hr class="hero-rule">
     <div class="hero-links">
       <a href="https://github.com/Shiv07ansh" class="btn btn-primary" target="_blank">GitHub</a>
       <a href="https://zenodo.org/records/19034554" class="btn btn-secondary" target="_blank">Published Research</a>
@@ -398,12 +419,12 @@
       <div class="paper-title">AIoT Health: Medicine Reminder For The Elderly</div>
       <div class="paper-authors">Shrivansh Pratap Singh &amp; Manoj Kumar Gupta &mdash; Delhi Technological University</div>
       <div class="paper-abstract">
-        A fully offline medicine adherence system on an ESP32-S3 microcontroller.
-        A cascading TinyML pipeline runs Keyword Spotting gating a Spoken Language
-        Understanding classifier, enabling 8-class intent recognition with physical
-        sensor cross-validation. Achieves 96.4% KWS and 94.1% SLU accuracy at
-        sub-100ms combined latency on a sub-$15 hardware platform with no cloud dependency.
+        Designed and implemented a fully offline, privacy-preserving medicine adherence system on an ESP32-S3. Engineered a cascading TinyML pipeline where a low-power Keyword Spotting (KWS) model gates a high-fidelity Spoken Language Understanding (SLU) classifier to minimize idle-state power consumption. Validated intent recognition through multi-modal physical sensor fusion (Ultrasonic/Hall-effect). Achieved sub-100ms latency on sub-$15 hardware, demonstrating that complex NLP tasks can be decentralized and executed on the extreme edge without cloud dependency.
       </div>
+	  <div class="tags">
+          <span class="tag">Embedded AI</span>
+          <span class="tag">Systems Research</span>
+        </div>
       <div class="paper-links">
         <a href="https://zenodo.org/records/19034554" class="pill accent" target="_blank">Preprint &rarr;</a>
         <a href="https://github.com/Shiv07ansh/AIoT-Medicine-Reminder" class="pill" target="_blank">Code</a>
