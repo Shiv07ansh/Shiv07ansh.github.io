@@ -548,27 +548,28 @@
 	.pipeline-diagram {
   display: flex;
   align-items: center;
-  gap: 4px;
+  justify-content: space-between;
+  gap: 0;
   margin: 20px 0;
-  overflow-x: auto;
-  padding: 16px;
+  padding: 24px 32px;
   background: var(--surface);
   border-radius: 8px;
   border: 1px solid var(--border);
-  }
+   }
 
-  .pipe-block {
+.pipe-block {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  padding: 10px 14px;
+  padding: 12px 20px;
   border-radius: 6px;
   background: var(--white);
   border: 1px solid var(--border);
-  min-width: 80px;
-  flex-shrink: 0;
-  }
+  flex: 1;
+  max-width: 160px;
+}
+
 
   .pipe-block.pipe-active {
   border-color: var(--accent);
@@ -597,15 +598,16 @@
   white-space: nowrap;
   }
 
-  .pipe-arrow {
-  font-size: 16px;
+.pipe-arrow {
+  font-size: 18px;
   color: var(--muted);
   flex-shrink: 0;
+  flex: 0.3;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  }
+}
 
   .pipe-arrow.pipe-trigger {
   color: var(--accent);
