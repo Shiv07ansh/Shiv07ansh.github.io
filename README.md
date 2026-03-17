@@ -1,2 +1,501 @@
-# Shiv07ansh.github.io
-Me
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shrivansh Pratap Singh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #F7F5F0;
+    --surface: #EFECE5;
+    --text: #1A1814;
+    --muted: #6B6760;
+    --accent: #2A4D3E;
+    --accent-light: #D4E8DF;
+    --border: #D8D4CB;
+    --tag-bg: #E8E4DB;
+    --white: #FDFCFA;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Instrument Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 16px;
+  }
+
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  nav {
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 100;
+  }
+
+  nav .inner {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  nav .logo {
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    color: var(--accent);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 32px;
+  }
+
+  nav a {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  nav a:hover { color: var(--text); }
+
+  .hero {
+    padding: 80px 0 64px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .hero-label::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(40px, 7vw, 62px);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    margin-bottom: 24px;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-bio {
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 540px;
+    line-height: 1.7;
+    margin-bottom: 36px;
+  }
+
+  .hero-links {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+    letter-spacing: 0.01em;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+    border: 1px solid var(--accent);
+  }
+
+  .btn-primary:hover { background: #1e3a2e; border-color: #1e3a2e; }
+
+  .btn-secondary {
+    background: var(--white);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  .btn-secondary:hover { border-color: var(--text); background: var(--surface); }
+
+  section {
+    padding: 64px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+
+  .paper-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .paper-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--accent);
+  }
+
+  .paper-venue {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .paper-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    line-height: 1.3;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .paper-authors {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+
+  .paper-abstract {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 20px;
+    border-top: 1px solid var(--border);
+    padding-top: 14px;
+  }
+
+  .paper-links { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    background: var(--tag-bg);
+    color: var(--text);
+    transition: all 0.2s;
+  }
+
+  .pill:hover { background: var(--surface); border-color: var(--text); }
+
+  .pill.accent {
+    background: var(--accent-light);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .exp-item {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 24px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .exp-item:last-child { border-bottom: none; }
+
+  .exp-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    padding-top: 3px;
+  }
+
+  .exp-role { font-size: 16px; font-weight: 600; margin-bottom: 2px; }
+
+  .exp-company {
+    font-size: 14px;
+    color: var(--accent);
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+
+  .exp-desc { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
+
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: var(--tag-bg);
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+
+  .blog-grid { display: grid; gap: 16px; }
+
+  .blog-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    text-decoration: none;
+    display: block;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .blog-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+
+  .blog-card.coming-soon { opacity: 0.55; cursor: default; }
+  .blog-card.coming-soon:hover { border-color: var(--border); transform: none; }
+
+  .blog-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .blog-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    line-height: 1.3;
+    color: var(--text);
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .blog-excerpt { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  .coming-badge {
+    position: absolute;
+    top: 16px; right: 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: var(--tag-bg);
+    color: var(--muted);
+    border: 1px solid var(--border);
+    letter-spacing: 0.04em;
+  }
+
+  footer {
+    padding: 40px 0;
+    text-align: center;
+  }
+
+  footer p {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  @media (max-width: 600px) {
+    .exp-item { grid-template-columns: 1fr; gap: 4px; }
+    nav ul { gap: 20px; }
+    h1 { font-size: 36px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <a href="#" class="logo">SPS_</a>
+    <ul>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#experience">Work</a></li>
+      <li><a href="#blog">Writing</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+
+  <section class="hero">
+    <div class="hero-label">Independent Researcher, Delhi</div>
+    <h1>Shrivansh<br><em>Pratap Singh</em></h1>
+    <p class="hero-bio">
+      I build AI systems that run on hardware that costs less than a meal.
+      Former software engineer at Cadence Design Systems.
+      Currently applying to EPFL MSc Computer Science.
+    </p>
+    <div class="hero-links">
+      <a href="https://github.com/Shiv07ansh" class="btn btn-primary" target="_blank">GitHub</a>
+      <a href="https://zenodo.org/records/19034554" class="btn btn-secondary" target="_blank">Published Research</a>
+      <a href="mailto:engrshivansh@gmail.com" class="btn btn-secondary">Email</a>
+    </div>
+  </section>
+
+  <section id="research">
+    <div class="section-label">Research</div>
+    <div class="paper-card">
+      <div class="paper-venue">ICDECT-2025 &mdash; Springer LNNS</div>
+      <div class="paper-title">AIoT Health: Medicine Reminder For The Elderly</div>
+      <div class="paper-authors">Shrivansh Pratap Singh &amp; Manoj Kumar Gupta &mdash; Delhi Technological University</div>
+      <div class="paper-abstract">
+        A fully offline medicine adherence system on an ESP32-S3 microcontroller.
+        A cascading TinyML pipeline runs Keyword Spotting gating a Spoken Language
+        Understanding classifier, enabling 8-class intent recognition with physical
+        sensor cross-validation. Achieves 96.4% KWS and 94.1% SLU accuracy at
+        sub-100ms combined latency on a sub-$15 hardware platform with no cloud dependency.
+      </div>
+      <div class="paper-links">
+        <a href="https://zenodo.org/records/19034554" class="pill accent" target="_blank">Preprint &rarr;</a>
+        <a href="https://github.com/Shiv07ansh/AIoT-Medicine-Reminder" class="pill" target="_blank">Code</a>
+        <span class="pill">DOI: 10.5281/zenodo.19034554</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="section-label">Experience</div>
+
+    <div class="exp-item">
+      <div class="exp-date">2023 &ndash; 2024</div>
+      <div>
+        <div class="exp-role">Software Engineer I</div>
+        <div class="exp-company">Cadence Design Systems</div>
+        <div class="exp-desc">
+          SPB team, Allegro X symbol editor. Owned the DE-HDL flow end-to-end,
+          shipping features into release 23.1. Gained firsthand understanding of
+          EDA tooling, hardware-software interfaces, and production C++ at scale.
+        </div>
+        <div class="tags">
+          <span class="tag">C++</span>
+          <span class="tag">Qt</span>
+          <span class="tag">TCL</span>
+          <span class="tag">EDA</span>
+          <span class="tag">Allegro X</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-date">2019 &ndash; 2023</div>
+      <div>
+        <div class="exp-role">B.Tech CSE DevOps Hons</div>
+        <div class="exp-company">UPES Dehradun</div>
+        <div class="exp-desc">
+          Computer Science and Engineering with Honours in DevOps.
+          Semester 6 IoT project on an ESP8266 led directly to the published research above.
+        </div>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">Embedded C</span>
+          <span class="tag">TFLite Micro</span>
+          <span class="tag">ESP32</span>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <section id="blog">
+    <div class="section-label">Writing</div>
+    <div class="blog-grid">
+
+      <a href="blog/tinyml-medicine-reminder.html" class="blog-card">
+        <div class="blog-tag">TinyML &mdash; Hardware</div>
+        <div class="blog-title">How I built a voice-activated medicine reminder on a $4 microcontroller</div>
+        <div class="blog-excerpt">
+          The real story behind the paper: what the ESP32-S3 can actually do,
+          why the first architectures failed, and what it took to get two neural
+          networks running simultaneously in 330KB of RAM.
+        </div>
+      </a>
+
+      <div class="blog-card coming-soon">
+        <span class="coming-badge">Coming soon</span>
+        <div class="blog-tag">Industry &mdash; EDA</div>
+        <div class="blog-title">What working at Cadence taught me about the hardware-software interface</div>
+        <div class="blog-excerpt">
+          A year inside one of the world's largest EDA companies, and why it
+          changed how I think about constraint-aware software.
+        </div>
+      </div>
+
+      <div class="blog-card coming-soon">
+        <span class="coming-badge">Coming soon</span>
+        <div class="blog-tag">Research &mdash; Edge AI</div>
+        <div class="blog-title">The gap between TinyML papers and real deployment</div>
+        <div class="blog-excerpt">
+          Benchmark accuracy means nothing until your model survives quantization,
+          fits inside a tensor arena, and runs on a voice that isn't yours.
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <p>Shrivansh Pratap Singh &mdash; Delhi, India &mdash; engrshivansh@gmail.com</p>
+</footer>
+
+</body>
+</html>
