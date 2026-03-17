@@ -555,7 +555,7 @@
         <span class="highlight-sub">combined</span>
       </div>
       <div class="highlight-item">
-        <span class="highlight-label">BOM</span>
+        <span class="highlight-label">Unit Cost (BOM)</span>
         <span class="highlight-val">~$15</span>
         <span class="highlight-sub">total hardware</span>
       </div>
@@ -564,7 +564,7 @@
       <li>Cascading TinyML pipeline — KWS gates SLU, reducing active inference time by ~70%</li>
       <li>Triple-factor adherence verification: voice intent + Hall effect lid sensor + ultrasonic hand detection</li>
       <li>Both models run on 330KB combined SRAM with tensor arenas allocated in PSRAM</li>
-      <li>Bidirectional LSTM replaced with GlobalAveragePooling after ReverseV2 kernel absent in TFLite Micro</li>
+      <li>Optimized architecture for resource-constrained inference: Replaced Bi-directional LSTM with GlobalAveragePooling to circumvent TFLite Micro kernel limitations (ReverseV2).</li>
       <li>MicroMutableOpResolver over AllOpsResolver — saves ~40KB SRAM by excluding backpropagation ops</li>
     </ul>
   </div>
