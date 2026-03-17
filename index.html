@@ -473,6 +473,24 @@
     nav ul { gap: 20px; }
     h1 { font-size: 36px; }
   }
+  
+  .paper-blog-link {
+  display: inline-block;
+  margin-top: 16px;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--accent);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid var(--accent-light);
+  padding-bottom: 2px;
+  transition: border-color 0.2s;
+  }
+
+  .paper-blog-link:hover {
+  border-color: var(--accent);
+  }
+
 </style>
 </head>
 <body>
@@ -567,6 +585,9 @@
       <li>Optimized architecture for resource-constrained inference: Replaced Bi-directional LSTM with GlobalAveragePooling to circumvent TFLite Micro kernel limitations (ReverseV2).</li>
       <li>MicroMutableOpResolver over AllOpsResolver — saves ~40KB SRAM by excluding backpropagation ops</li>
     </ul>
+	<a href="blog/tinyml-medicine-reminder.html" class="paper-blog-link">
+      Technical Retrospective &rarr;
+    </a>
   </div>
 </details>
     </div>
