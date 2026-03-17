@@ -277,24 +277,26 @@
   padding-top: 20px;
   }
 
-  .highlight-grid {
+.highlight-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
-  background: var(--border);
   border: 1px solid var(--border);
   border-radius: 8px;
   overflow: hidden;
   margin-bottom: 16px;
-  }
+}
 
-  .highlight-item {
+.highlight-item {
   background: var(--bg);
   padding: 14px 16px;
   display: flex;
   flex-direction: column;
   gap: 2px;
-  }
+  border-right: 1px solid var(--border);
+}
+.highlight-item:last-child {
+  border-right: none;
+}
 
   .highlight-label {
   font-family: 'DM Mono', monospace;
