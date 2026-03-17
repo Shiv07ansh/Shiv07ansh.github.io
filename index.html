@@ -140,11 +140,12 @@
   letter-spacing: 0.01em;
 	}
 
-.hero-rule {
-  border: none;
-  border-top: 1px solid var(--border);
-  margin: 24px 0;
-}
+  .hero-rule {
+	  border: none;
+	  border-top: 1px solid var(--border);
+	  margin: 24px 0;
+  }
+	
 
   .btn {
     display: inline-flex;
@@ -239,6 +240,108 @@
   }
 
   .paper-links { display: flex; gap: 10px; flex-wrap: wrap; }
+  
+  .paper-details {
+  margin-top: 20px;
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+}
+
+.paper-details summary {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+
+.paper-details summary::before {
+  content: '+';
+  font-size: 14px;
+  color: var(--accent);
+  transition: transform 0.2s;
+  display: inline-block;
+}
+
+.paper-details[open] summary::before {
+  transform: rotate(45deg);
+}
+
+.paper-expand {
+  padding-top: 20px;
+}
+
+.highlight-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.highlight-item {
+  background: var(--bg);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.highlight-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.highlight-val {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  color: var(--accent);
+  line-height: 1.1;
+}
+
+.highlight-sub {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.highlight-list {
+  padding-left: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.highlight-list li {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+  padding-left: 16px;
+  position: relative;
+}
+
+.highlight-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+}
 
   .pill {
     display: inline-flex;
@@ -414,22 +517,58 @@
 
   <section id="research">
     <div class="section-label">Research</div>
-    <div class="paper-card">
-      <div class="paper-venue">ICDECT-2025 &mdash; Springer LNNS</div>
+		<div class="paper-card">
+		<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+		<div class="paper-venue" style="margin-bottom: 0;">ICDECT-2025 &mdash; Springer LNNS</div>
+		<div style="display: flex; gap: 6px;">
+		<span class="tag">Embedded AI</span>
+		<span class="tag">Systems Research</span>
+		</div>
+		</div>
       <div class="paper-title">AIoT Health: Medicine Reminder For The Elderly</div>
       <div class="paper-authors">Shrivansh Pratap Singh &amp; Manoj Kumar Gupta &mdash; Delhi Technological University</div>
       <div class="paper-abstract">
         Designed and implemented a fully offline, privacy-preserving medicine adherence system on an ESP32-S3. Engineered a cascading TinyML pipeline where a low-power Keyword Spotting (KWS) model gates a high-fidelity Spoken Language Understanding (SLU) classifier to minimize idle-state power consumption. Validated intent recognition through multi-modal physical sensor fusion (Ultrasonic/Hall-effect). Achieved sub-100ms latency on sub-$15 hardware, demonstrating that complex NLP tasks can be decentralized and executed on the extreme edge without cloud dependency.
       </div>
-	  <div class="tags">
-          <span class="tag">Embedded AI</span>
-          <span class="tag">Systems Research</span>
-        </div>
       <div class="paper-links">
         <a href="https://zenodo.org/records/19034554" class="pill accent" target="_blank">Preprint &rarr;</a>
         <a href="https://github.com/Shiv07ansh/AIoT-Medicine-Reminder" class="pill" target="_blank">Code</a>
         <span class="pill">DOI: 10.5281/zenodo.19034554</span>
       </div>
+	  <details class="paper-details">
+  <summary>Technical highlights</summary>
+  <div class="paper-expand">
+    <div class="highlight-grid">
+      <div class="highlight-item">
+        <span class="highlight-label">KWS</span>
+        <span class="highlight-val">96.4%</span>
+        <span class="highlight-sub">accuracy</span>
+      </div>
+      <div class="highlight-item">
+        <span class="highlight-label">SLU</span>
+        <span class="highlight-val">94.1%</span>
+        <span class="highlight-sub">accuracy</span>
+      </div>
+      <div class="highlight-item">
+        <span class="highlight-label">Latency</span>
+        <span class="highlight-val">&lt;100ms</span>
+        <span class="highlight-sub">combined</span>
+      </div>
+      <div class="highlight-item">
+        <span class="highlight-label">BOM</span>
+        <span class="highlight-val">~$15</span>
+        <span class="highlight-sub">total hardware</span>
+      </div>
+    </div>
+    <ul class="highlight-list">
+      <li>Cascading TinyML pipeline — KWS gates SLU, reducing active inference time by ~70%</li>
+      <li>Triple-factor adherence verification: voice intent + Hall effect lid sensor + ultrasonic hand detection</li>
+      <li>Both models run on 330KB combined SRAM with tensor arenas allocated in PSRAM</li>
+      <li>Bidirectional LSTM replaced with GlobalAveragePooling after ReverseV2 kernel absent in TFLite Micro</li>
+      <li>MicroMutableOpResolver over AllOpsResolver — saves ~40KB SRAM by excluding backpropagation ops</li>
+    </ul>
+  </div>
+</details>
     </div>
   </section>
 
