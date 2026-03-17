@@ -521,6 +521,28 @@
   .btn-email:hover .email-address {
   display: inline;
   }
+  
+  
+  .btn-expand {
+  overflow: hidden;
+  max-width: 50px;
+  transition: max-width 0.4s ease, border-color 0.2s;
+  white-space: nowrap;
+}
+
+.btn-expand:hover {
+  max-width: 160px;
+  border-color: var(--accent);
+}
+
+.btn-long {
+  display: none;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+}
+
+.btn-expand:hover .btn-short { display: none; }
+.btn-expand:hover .btn-long { display: inline; }
 
 </style>
 </head>
@@ -555,11 +577,14 @@
   how machine learning can optimize VLSI design flows. I am actively seeking a Master's at EPFL 
   to deepen my expertise in computer architecture and hardware-software co-design.
 </p>
-<hr class="hero-rule">
+    <hr class="hero-rule">
     <div class="hero-links">
       <a href="https://github.com/Shiv07ansh" class="btn btn-primary" target="_blank">GitHub</a>
       <a href="https://zenodo.org/records/19034554" class="btn btn-primary" target="_blank">Published Research</a>
-	  <a href="CV.pdf" class="btn btn-primary" download>CV</a>
+	  <a href="cv.pdf" class="btn btn-primary btn-expand" target="_blank">
+      <span class="btn-short">CV</span>
+      <span class="btn-long">Download PDF</span>
+      </a>
       <a href="mailto:engrshivansh@gmail.com" class="btn btn-primary btn-email">
       <span class="email-label">Email</span>
       <span class="email-address">engrshivansh@gmail.com</span>
