@@ -245,9 +245,9 @@
   margin-top: 20px;
   border-top: 1px solid var(--border);
   padding-top: 16px;
-}
+  }
 
-.paper-details summary {
+  .paper-details summary {
   font-family: 'DM Mono', monospace;
   font-size: 12px;
   color: var(--muted);
@@ -259,25 +259,25 @@
   align-items: center;
   gap: 8px;
   user-select: none;
-}
+  }
 
-.paper-details summary::before {
+  .paper-details summary::before {
   content: '+';
   font-size: 14px;
   color: var(--accent);
   transition: transform 0.2s;
   display: inline-block;
-}
+  }
 
-.paper-details[open] summary::before {
+  .paper-details[open] summary::before {
   transform: rotate(45deg);
-}
+  }
 
-.paper-expand {
+  .paper-expand {
   padding-top: 20px;
-}
+  }
 
-.highlight-grid {
+  .highlight-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1px;
@@ -286,53 +286,53 @@
   border-radius: 8px;
   overflow: hidden;
   margin-bottom: 16px;
-}
+  }
 
-.highlight-item {
+  .highlight-item {
   background: var(--bg);
   padding: 14px 16px;
   display: flex;
   flex-direction: column;
   gap: 2px;
-}
+  }
 
-.highlight-label {
+  .highlight-label {
   font-family: 'DM Mono', monospace;
   font-size: 10px;
   color: var(--muted);
   letter-spacing: 0.06em;
   text-transform: uppercase;
-}
+  }
 
-.highlight-val {
+  .highlight-val {
   font-family: 'DM Serif Display', serif;
   font-size: 22px;
   color: var(--accent);
   line-height: 1.1;
-}
+  }
 
-.highlight-sub {
+  .highlight-sub {
   font-size: 11px;
   color: var(--muted);
-}
+  }
 
-.highlight-list {
+  .highlight-list {
   padding-left: 0;
   list-style: none;
   display: flex;
   flex-direction: column;
   gap: 8px;
-}
+  }
 
-.highlight-list li {
+  .highlight-list li {
   font-size: 13px;
   color: var(--muted);
   line-height: 1.6;
   padding-left: 16px;
   position: relative;
-}
+  }
 
-.highlight-list li::before {
+  .highlight-list li::before {
   content: '';
   position: absolute;
   left: 0;
@@ -341,7 +341,7 @@
   height: 4px;
   border-radius: 50%;
   background: var(--accent);
-}
+  }
 
   .pill {
     display: inline-flex;
@@ -528,22 +528,97 @@
   max-width: 50px;
   transition: max-width 0.4s ease, border-color 0.2s;
   white-space: nowrap;
-}
+  }
 
-.btn-expand:hover {
+  .btn-expand:hover {
   max-width: 160px;
   border-color: var(--accent);
-}
+  }
 
-.btn-long {
+  .btn-long {
   display: none;
   font-family: 'DM Mono', monospace;
   font-size: 12px;
-}
+  }
 
-.btn-expand:hover .btn-short { display: none; }
-.btn-expand:hover .btn-long { display: inline; }
+  .btn-expand:hover .btn-short { display: none; }
+  .btn-expand:hover .btn-long { display: inline; }
 
+
+	.pipeline-diagram {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 20px 0;
+  overflow-x: auto;
+  padding: 16px;
+  background: var(--surface);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  }
+
+  .pipe-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 14px;
+  border-radius: 6px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  min-width: 80px;
+  flex-shrink: 0;
+  }
+
+  .pipe-block.pipe-active {
+  border-color: var(--accent);
+  background: var(--accent-light);
+  }
+
+  .pipe-block.pipe-action {
+  border-color: var(--border);
+  background: var(--tag-bg);
+  }
+
+  .pipe-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+  }
+
+  .pipe-block.pipe-active .pipe-label {
+  color: var(--accent);
+  }
+
+  .pipe-sub {
+  font-size: 10px;
+  color: var(--muted);
+  white-space: nowrap;
+  }
+
+  .pipe-arrow {
+  font-size: 16px;
+  color: var(--muted);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  }
+
+  .pipe-arrow.pipe-trigger {
+  color: var(--accent);
+  }
+
+  .pipe-trigger-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  }
+	
 </style>
 </head>
 <body>
@@ -644,6 +719,38 @@
       <li>Optimized architecture for resource-constrained inference: Replaced Bi-directional LSTM with GlobalAveragePooling to circumvent TFLite Micro kernel limitations (ReverseV2).</li>
       <li>MicroMutableOpResolver over AllOpsResolver — saves ~40KB SRAM by excluding backpropagation ops</li>
     </ul>	
+	
+	
+	<div class="pipeline-diagram">
+    <div class="pipe-block">
+    <span class="pipe-label">Audio Input</span>
+    <span class="pipe-sub">16kHz continuous</span>
+    </div>
+    <div class="pipe-arrow">&#8594;</div>
+    <div class="pipe-block pipe-active">
+    <span class="pipe-label">KWS</span>
+    <span class="pipe-sub">always-on / 30ms</span>
+    </div>
+    <div class="pipe-arrow pipe-trigger">
+    <span class="pipe-trigger-label">trigger</span>
+    &#8594;
+    </div>
+    <div class="pipe-block pipe-active">
+    <span class="pipe-label">SLU</span>
+    <span class="pipe-sub">on-demand / 70ms</span>
+    </div>
+    <div class="pipe-arrow">&#8594;</div>
+    <div class="pipe-block">
+    <span class="pipe-label">Intent</span>
+    <span class="pipe-sub">8 classes</span>
+    </div>
+    <div class="pipe-arrow">&#8594;</div>
+    <div class="pipe-block pipe-action">
+    <span class="pipe-label">Action</span>
+    <span class="pipe-sub">FSM handler</span>
+    </div>
+    </div>
+
   </div>
 </details>
   <a href="blog/tinyml-medicine-reminder.html" class="paper-blog-link">
