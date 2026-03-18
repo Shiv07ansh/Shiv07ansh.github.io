@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- EDIT: Page title -->
+<title>Why your voice-activated device does not work on my grandmother's voice</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- DO NOT EDIT: Styles -->
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #F7F5F0; --surface: #EFECE5; --text: #1A1814; --muted: #6B6760;
+    --accent: #2A4D3E; --accent-light: #D4E8DF; --border: #D8D4CB;
+    --tag-bg: #E8E4DB; --white: #FDFCFA;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Instrument Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; font-size: 16px; }
+  .container { max-width: 680px; margin: 0 auto; padding: 0 24px; }
+  nav { padding: 24px 0; border-bottom: 1px solid var(--border); }
+  nav .inner { max-width: 680px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; }
+  nav .logo { font-family: 'DM Mono', monospace; font-size: 14px; color: var(--accent); text-decoration: none; letter-spacing: -0.02em; }
+  .back-link { font-size: 13px; color: var(--muted); text-decoration: none; display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
+  .back-link:hover { color: var(--text); }
+  .post-header { padding: 64px 0 48px; border-bottom: 1px solid var(--border); }
+  .post-meta { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+  .post-tag { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase; background: var(--accent-light); padding: 4px 10px; border-radius: 4px; border: 1px solid var(--accent); }
+  .post-date { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); }
+  h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); line-height: 1.15; letter-spacing: -0.03em; color: var(--text); margin-bottom: 20px; }
+  .post-subtitle { font-size: 18px; color: var(--muted); line-height: 1.6; font-style: italic; font-family: 'DM Serif Display', serif; }
+  .post-body { padding: 48px 0; }
+  .post-body h2 { font-family: 'DM Serif Display', serif; font-size: 24px; letter-spacing: -0.02em; margin: 48px 0 16px; color: var(--text); }
+  .post-body h3 { font-family: 'Instrument Sans', sans-serif; font-size: 16px; font-weight: 600; margin: 32px 0 12px; color: var(--text); }
+  .post-body p { font-size: 17px; line-height: 1.8; color: var(--text); margin-bottom: 20px; }
+  .post-body p.muted { color: var(--muted); font-size: 15px; }
+  .post-body a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+  .post-body ul, .post-body ol { padding-left: 24px; margin-bottom: 20px; }
+  .post-body li { font-size: 17px; line-height: 1.8; margin-bottom: 8px; color: var(--text); }
+  .post-body code { font-family: 'DM Mono', monospace; font-size: 13px; background: var(--tag-bg); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--border); color: var(--accent); }
+  .post-body pre { background: #1A1814; border-radius: 8px; padding: 24px; margin: 24px 0; overflow-x: auto; }
+  .post-body pre code { background: none; border: none; color: #D8D4CB; font-size: 13px; padding: 0; line-height: 1.7; }
+  .callout { background: var(--accent-light); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 28px 0; }
+  .callout p { font-size: 15px; color: var(--accent); margin-bottom: 0; }
+  .divider { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
+  .constraint-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin: 24px 0; }
+  .constraint-cell { background: var(--bg); padding: 16px 20px; }
+  .constraint-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; }
+  .constraint-val { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--accent); margin-bottom: 4px; }
+  .constraint-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .post-footer { padding: 48px 0; border-top: 1px solid var(--border); }
+  .post-footer-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 16px; }
+  .next-posts { display: grid; gap: 12px; }
+  .next-card { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; text-decoration: none; display: block; transition: all 0.2s; }
+  .next-card:hover { border-color: var(--accent); }
+  .next-card-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+  .next-card-title { font-family: 'DM Serif Display', serif; font-size: 16px; color: var(--text); }
+  footer { padding: 32px 0; text-align: center; border-top: 1px solid var(--border); }
+  footer p { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <a href="../index.html" class="logo">SPS_</a>
+    <a href="../index.html" class="back-link">&larr; Back</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <span class="post-tag">Research &mdash; Edge AI</span>
+      <span class="post-date">March 2026</span>
+    </div>
+    <h1>Why your voice-activated device does not work on my grandmother's voice</h1>
+    <p class="post-subtitle">On the gap between benchmark accuracy and real deployment, and why the hardest problem in on-device speech understanding has nothing to do with the model.</p>
+  </header>
+
+  <article class="post-body">
+
+    <p>My medicine reminder system achieves 96.4% keyword spotting accuracy. I am proud of that number. I also want to be honest about what it means, because the difference between what that number says and what it does not say is, I think, one of the most important and least discussed problems in applied machine learning.</p>
+
+    <p>96.4% on a held-out test set drawn from the same distribution as the training data. One speaker. One room. One accent. Controlled conditions, consistent microphone placement, no background television, no overlapping conversation, no cognitive impairment affecting speech patterns. The number is real. The conditions that produced it are not the conditions under which the system would actually be used.</p>
+
+    <p>This is not a confession of failure. It is a description of a gap that exists in nearly every deployed speech system, from the most resource-constrained embedded device to the most heavily funded commercial assistant. The difference is that cloud-based systems have the compute budget to partially close the gap. On-device systems running on microcontrollers with 320KB of usable RAM do not. And the population that most needs offline, low-cost, embedded voice interaction is precisely the population whose speech is least represented in any training dataset.</p>
+
+    <h2>What 96.4% actually measures</h2>
+
+    <p>When a paper reports accuracy on a speech task, that number describes performance on a test set. The test set is a held-out portion of the full dataset, usually split randomly or by stratified sampling. If the dataset was collected from one speaker in one environment, the test set is also from one speaker in one environment. The model has never seen those exact samples, but it has seen samples from the same distribution. The accuracy number measures how well the model interpolates within a known distribution, not how well it generalises to distributions it has never encountered.</p>
+
+    <p>This distinction matters enormously in practice and is frequently elided in papers, including my own. The reported accuracy is the best-case number. It is the number you get when the person using the system sounds like the person who built it.</p>
+
+    <div class="callout">
+      <p>The target user of my medicine reminder is an elderly person in a low-connectivity setting, potentially with cognitive impairment affecting speech clarity, speaking a regional dialect of a language my training data barely covers. That person is as far from the training distribution as it is possible to be while still speaking the same language.</p>
+    </div>
+
+    <p>I did not formally benchmark performance on unseen speakers. I tested informally with a few other voices and the degradation was noticeable. I did not include those numbers in the paper because they were not from a controlled evaluation. I am including the observation here because pretending the limitation does not exist would be worse than acknowledging it without precise numbers.</p>
+
+    <h2>Why this problem is specifically hard on embedded hardware</h2>
+
+    <p>On a cloud system or a server, the standard approaches to this problem are well understood. You train on a large, diverse dataset covering many speakers, accents, and acoustic conditions. You use data augmentation to simulate variation you did not capture. You apply domain adaptation techniques to shift the model toward new distributions at inference time. You fine-tune on user-specific data after deployment. None of these approaches are straightforwardly available on an MCU.</p>
+
+    <div class="constraint-grid">
+      <div class="constraint-cell">
+        <div class="constraint-label">Available SRAM</div>
+        <div class="constraint-val">320KB</div>
+        <div class="constraint-desc">Total usable after firmware. Both models and arenas must fit here.</div>
+      </div>
+      <div class="constraint-cell">
+        <div class="constraint-label">On-device fine-tuning</div>
+        <div class="constraint-val">Not viable</div>
+        <div class="constraint-desc">Backpropagation requires storing gradients. The memory cost is prohibitive.</div>
+      </div>
+      <div class="constraint-cell">
+        <div class="constraint-label">Model download</div>
+        <div class="constraint-val">No guarantee</div>
+        <div class="constraint-desc">The deployment context assumes intermittent or no connectivity.</div>
+      </div>
+      <div class="constraint-cell">
+        <div class="constraint-label">Cloud fallback</div>
+        <div class="constraint-val">By design, absent</div>
+        <div class="constraint-desc">Offline operation is a hard requirement, not a nice-to-have.</div>
+      </div>
+    </div>
+
+    <p>Fine-tuning on device is the most obvious solution and the most obviously unavailable one. Training a neural network requires storing the forward pass activations to compute gradients during backpropagation. On a device with 320KB of total usable memory, where the inference-only forward pass already requires careful arena management just to fit, there is no room for the additional memory that training requires. This is not an engineering problem waiting for a clever implementation. It is a fundamental constraint of the hardware class.</p>
+
+    <p>Larger models trained on more diverse data would help, but larger models do not fit. My KWS model occupies approximately 130KB of SRAM and 0.7MB of flash. Getting meaningfully better generalisation from a model this size, trained on the data I could collect as one person working alone, is a hard upper bound problem. You can push the boundary but you cannot eliminate it without either more data, more model capacity, or a fundamentally different approach to how the model learns.</p>
+
+    <h2>The data problem compounds the hardware problem</h2>
+
+    <p>Training data for low-resource languages and regional accents is scarce. Training data for elderly speakers with mild cognitive impairment is scarcer still. Training data for any of these populations recorded specifically for medicine-related conversational commands, in realistic home acoustic conditions, essentially does not exist at the scale needed to train a robust model.</p>
+
+    <p>I recorded my dataset myself. Approximately 2,500 samples for keyword spotting, 180 to 190 per class for intent classification, all in one voice, in one room, over several sessions. The augmentation pipeline I built expanded this by roughly six times through noise addition, time stretching, and pitch shifting. This is standard practice and it helps. It does not solve the underlying problem. Augmenting one speaker's voice does not produce another speaker's voice. It produces variations of the same speaker under different acoustic conditions.</p>
+
+    <p>The populations most underserved by current voice technology -- elderly speakers, non-native speakers, speakers of low-resource languages, speakers with speech differences -- are also the populations for whom offline, low-cost, embedded voice interaction would be most valuable. The people who cannot rely on a smartphone or a stable internet connection are the people who need a device that works locally. The device that works locally is the device least equipped to handle the acoustic diversity of the population that needs it.</p>
+
+    <p>This circularity is not accidental. It is a structural feature of how voice technology has been developed: optimised for the connected, the English-speaking, and the demographically central, deployed first where the market is largest, and reaching the edges of the distribution last if at all.</p>
+
+    <h2>What the literature says and what it leaves out</h2>
+
+    <p>The TinyML literature has made remarkable progress on model compression, quantization, and efficient architecture design for constrained hardware. The results are genuinely impressive. A model that achieves competitive keyword spotting accuracy at 130KB of SRAM, with int8 quantization and under 30ms inference latency, would have been considered implausible five years ago.</p>
+
+    <p>What the literature reports less consistently is speaker-independent accuracy. Many papers evaluate on held-out samples from the same recording sessions as the training data. Some papers use established benchmarks like Google Speech Commands, which provides better speaker diversity but is still primarily English, primarily non-elderly, and primarily recorded in controlled conditions. The gap between benchmark performance and deployment performance in genuinely diverse real-world conditions is rarely quantified, and when it is, the numbers are sobering.</p>
+
+    <p class="muted">I am not criticising this literature. I am a product of it and my work depends on it. I am noting that the evaluation methodology systematically overstates the readiness of these systems for the populations that need them most, and that this overstating is rarely acknowledged explicitly in the papers themselves.</p>
+
+    <h2>The approaches that might actually work</h2>
+
+    <p>This is where the problem becomes genuinely interesting as a research question rather than just a critique of existing work.</p>
+
+    <p>One direction is personalisation at enrollment time rather than continuous fine-tuning. If a new user can provide a small number of samples when they first set up the device, and the model can adapt to their voice without a full retraining cycle, you get meaningful generalisation without the memory cost of backpropagation. Techniques like prototypical networks and metric learning have shown promise in few-shot settings. Whether they can be compressed to the memory budget of an MCU while retaining meaningful adaptation capability is an open question.</p>
+
+    <p>Another direction is architecture search specifically targeting generalisation within fixed memory budgets. The models I built were designed to fit within the hardware constraint while maximising accuracy on the training distribution. A model designed from the start to maximise speaker-independent accuracy within the same constraint might look architecturally quite different. Neural architecture search at this scale, with generalisation as the explicit optimisation target rather than just accuracy, is not well explored in the TinyML literature.</p>
+
+    <p>A third direction is federated approaches where devices contribute anonymised updates to a shared model without transmitting raw audio. This preserves privacy, addresses the data scarcity problem over time, and does not require connectivity at inference time. The coordination infrastructure is non-trivial and the communication constraints for low-power devices are significant, but the direction is promising.</p>
+
+    <p>None of these are solved. All of them are active areas of research. The constraint that makes them hard, fitting generalisation capability inside the memory envelope of an MCU-class device without connectivity, is exactly the constraint that the deployment context demands.</p>
+
+    <h2>Why I think about this problem the way I do</h2>
+
+    <p>I built a system that works reliably for one person. The paper I published describes that system accurately and reports its performance honestly. What the paper cannot fully convey, and what I want to convey here, is that building it changed my understanding of what the unsolved problem actually is.</p>
+
+    <p>Before building it, I thought the hard problem was getting a neural network to run on a microcontroller. That problem is mostly solved. The frameworks exist, the quantization pipelines exist, the architecture patterns are well understood. Getting inference to work within a memory budget is an engineering challenge and a real one, but it is a tractable one.</p>
+
+    <p>The hard problem is getting a neural network that was trained on data you could collect to work on a voice you have never heard, in an acoustic environment you have never recorded, on a device that cannot be updated without physical access, for a person whose needs motivated the entire project but whose voice was never in the training set.</p>
+
+    <p>That problem sits at the intersection of machine learning, systems architecture, and the practical realities of deployment in resource-constrained settings. It is the problem I want to work on. The medicine reminder was not the answer. It was the question, stated precisely enough to be worth asking.</p>
+
+    <hr class="divider">
+
+    <p>The system described in this post is documented in full at <a href="https://github.com/Shiv07ansh/AIoT-Medicine-Reminder" target="_blank">Shiv07ansh/AIoT-Medicine-Reminder</a>. The paper is available as a preprint at <a href="https://zenodo.org/records/19034554" target="_blank">zenodo.org/records/19034554</a>. The story of how the system got built is in <a href="tinyml-medicine-reminder.html">the first post in this series</a>.</p>
+
+  </article>
+
+  <div class="post-footer">
+    <div class="post-footer-label">More writing</div>
+    <div class="next-posts">
+      <a href="tinyml-medicine-reminder.html" class="next-card">
+        <div class="next-card-label">Start here</div>
+        <div class="next-card-title">How I built a voice-activated medicine reminder on a $4 microcontroller</div>
+      </a>
+      <a href="cadence-hardware-software.html" class="next-card">
+        <div class="next-card-label">Also worth reading</div>
+        <div class="next-card-title">What working at Cadence taught me about the hardware-software interface</div>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>Shrivansh Pratap Singh &mdash; Delhi, India &mdash; engrshivansh@gmail.com</p>
+</footer>
+
+</body>
+</html>
