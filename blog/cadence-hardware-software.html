@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- EDIT: Page title -->
+<title>What working at Cadence taught me about the hardware-software interface</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- DO NOT EDIT: Styles -->
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #F7F5F0; --surface: #EFECE5; --text: #1A1814; --muted: #6B6760;
+    --accent: #2A4D3E; --accent-light: #D4E8DF; --border: #D8D4CB;
+    --tag-bg: #E8E4DB; --white: #FDFCFA;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Instrument Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; font-size: 16px; }
+  .container { max-width: 680px; margin: 0 auto; padding: 0 24px; }
+  nav { padding: 24px 0; border-bottom: 1px solid var(--border); }
+  nav .inner { max-width: 680px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; }
+  nav .logo { font-family: 'DM Mono', monospace; font-size: 14px; color: var(--accent); text-decoration: none; letter-spacing: -0.02em; }
+  .back-link { font-size: 13px; color: var(--muted); text-decoration: none; display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
+  .back-link:hover { color: var(--text); }
+  .post-header { padding: 64px 0 48px; border-bottom: 1px solid var(--border); }
+  .post-meta { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+  .post-tag { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase; background: var(--accent-light); padding: 4px 10px; border-radius: 4px; border: 1px solid var(--accent); }
+  .post-date { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); }
+  h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); line-height: 1.15; letter-spacing: -0.03em; color: var(--text); margin-bottom: 20px; }
+  .post-subtitle { font-size: 18px; color: var(--muted); line-height: 1.6; font-style: italic; font-family: 'DM Serif Display', serif; }
+  .post-body { padding: 48px 0; }
+  .post-body h2 { font-family: 'DM Serif Display', serif; font-size: 24px; letter-spacing: -0.02em; margin: 48px 0 16px; color: var(--text); }
+  .post-body h3 { font-family: 'Instrument Sans', sans-serif; font-size: 16px; font-weight: 600; margin: 32px 0 12px; color: var(--text); }
+  .post-body p { font-size: 17px; line-height: 1.8; color: var(--text); margin-bottom: 20px; }
+  .post-body p.muted { color: var(--muted); font-size: 15px; }
+  .post-body a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+  .post-body ul, .post-body ol { padding-left: 24px; margin-bottom: 20px; }
+  .post-body li { font-size: 17px; line-height: 1.8; margin-bottom: 8px; color: var(--text); }
+  .post-body code { font-family: 'DM Mono', monospace; font-size: 13px; background: var(--tag-bg); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--border); color: var(--accent); }
+  .post-body pre { background: #1A1814; border-radius: 8px; padding: 24px; margin: 24px 0; overflow-x: auto; }
+  .post-body pre code { background: none; border: none; color: #D8D4CB; font-size: 13px; padding: 0; line-height: 1.7; }
+  .callout { background: var(--accent-light); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 28px 0; }
+  .callout p { font-size: 15px; color: var(--accent); margin-bottom: 0; }
+  .divider { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
+  .post-footer { padding: 48px 0; border-top: 1px solid var(--border); }
+  .post-footer-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 16px; }
+  .next-posts { display: grid; gap: 12px; }
+  .next-card { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; text-decoration: none; display: block; transition: all 0.2s; }
+  .next-card:hover { border-color: var(--accent); }
+  .next-card.coming { opacity: 0.6; cursor: default; pointer-events: none; }
+  .next-card-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+  .next-card-title { font-family: 'DM Serif Display', serif; font-size: 16px; color: var(--text); }
+  footer { padding: 32px 0; text-align: center; border-top: 1px solid var(--border); }
+  footer p { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <a href="../index.html" class="logo">SPS_</a>
+    <a href="../index.html" class="back-link">&larr; Back</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <span class="post-tag">Industry &mdash; EDA</span>
+      <span class="post-date">March 2026</span>
+    </div>
+    <h1>What working at Cadence taught me about the hardware-software interface</h1>
+    <p class="post-subtitle">I joined one of the world's largest EDA companies not knowing what EDA stood for. A year later I left understanding something about software I could not have learned anywhere else.</p>
+  </header>
+
+  <article class="post-body">
+
+    <p>I want to be honest about how I got the job. I applied broadly, I was grateful to receive an offer, and I accepted without fully understanding what Cadence Design Systems actually built. I knew it was a software company. I knew C++ was involved. I did not know that the software it built was part of the invisible infrastructure that makes every chip you have ever touched possible.</p>
+
+    <p>EDA stands for Electronic Design Automation. It is the category of software that chip designers use to design, simulate, verify, and manufacture integrated circuits. Without EDA tools, modern chip design at scale is not possible. Cadence is one of three companies that effectively control this market globally. I learned all of this in my first week, mostly by reading Wikipedia during lunch because I was too embarrassed to ask.</p>
+
+    <h2>Day one in a production codebase</h2>
+
+    <p>The codebase was the first shock. I had worked on university projects, a brief internship that involved nothing remotely similar, and a few personal builds. None of that prepared me for what a production C++ codebase at this scale actually looks like. The Allegro X symbol editor, which was the part of the tool I had been assigned to, had been developed and maintained by teams of engineers over many years. The architecture reflected every decision, compromise, and constraint of that entire history simultaneously.</p>
+
+    <p>I was assigned to the SPB team, working on a new flow called DE-HDL. The context: Allegro X had traditionally required designers to be connected to a proprietary server called Pulse at all times. The DE-HDL flow was the first implementation that allowed designers to work entirely locally, uploading and syncing to the server later. For a chip designer working on a library of tens of thousands of symbols, this was a meaningful quality-of-life change. For me, it was a feature specification that touched almost every layer of the symbol editor.</p>
+
+    <p>My job was to make the symbol editor work seamlessly in local mode. That sounds contained. It was not.</p>
+
+    <h2>What "simple" means in a production tool</h2>
+
+    <p>The first task I was given was implementing cut, copy, paste, duplicate, rename, and delete for symbols operating in the local DE-HDL flow. Six operations. In any other context this is a beginner exercise. In Allegro X it took weeks, and understanding why is the most useful thing I can share about what production software engineering actually involves.</p>
+
+    <p>Each symbol in Allegro X is not an isolated object. It is associated with a footprint, a part, and a set of properties. The names and IDs of these associated objects are stored inside the symbol file itself, in a structure whose nomenclature is specific to the flow being used. The Pulse server flow and the DE-HDL local flow used different naming conventions, different ID structures, and different ways of encoding the relationships between a symbol and its associated objects. The code that handled these operations in Pulse mode could not be directly reused. The data structures underneath were shaped differently.</p>
+
+    <p>So rename was not rename. It was: parse the local file structure, identify every reference to the old name across the symbol, its footprint association, its part association, and every property that encoded the relationship between them, update all of those references consistently, write back to the local file in the correct DE-HDL format, and ensure that the eventual sync to the Pulse server would not produce conflicts or orphaned references. A single rename operation touched the file I/O layer, the data model layer, the ID management layer, and the UI layer.</p>
+
+    <div class="callout">
+      <p>I stopped thinking of features as discrete units of functionality around month three. A feature in a mature production tool is a contract with every other part of the system that existed before it. You are not adding something. You are negotiating a new term into an existing agreement.</p>
+    </div>
+
+    <p>Qt made this concrete in a specific way. The symbol editor UI was built with Qt, and the signals and slots mechanism that Qt uses for event handling was initially opaque to me in a way that felt embarrassing. I understood the concept. I did not understand why the same signal connected to two different slots in two different contexts produced completely different results, or why the order of signal connections mattered in ways that were not obvious from the code. I spent a significant amount of time in the first few months reading Qt source code rather than Cadence source code, because understanding the tool required understanding the framework it was built on at a level that tutorials did not provide.</p>
+
+    <h2>Performance as a first-class requirement</h2>
+
+    <p>The thing that genuinely surprised me, and that I think about most now, was how seriously performance was treated as a correctness requirement rather than an optimisation concern.</p>
+
+    <p>The symbol libraries that Allegro X handles are not small. A realistic working library might contain fifty thousand symbols. Switching between views in the UI, loading a filtered list, rendering the tree of available footprints and parts associated with a symbol selection -- all of these operations had to complete in timeframes that felt instantaneous to a designer who expected professional-grade tooling. When I was working on the local file loading path for DE-HDL mode, the requirement was not just that it worked correctly. It was that switching from a server-backed list to a locally-loaded list of thousands of symbols had to be fast enough that a designer would not notice the transition.</p>
+
+    <p>Watching the senior engineers on my team approach this problem was a specific kind of education. The tree structures used for the symbol and footprint menus had been designed with these performance constraints in mind from the beginning. Lazy loading, careful cache invalidation, the precise ordering of which data got fetched first and which got deferred -- none of this was accidental. It was the accumulated result of years of knowing exactly where designers felt friction and engineering directly against that friction.</p>
+
+    <p class="muted">I was a new graduate contributing to a system that professionals used daily to design chips that would eventually become physical objects. The gap between those two facts was motivating in a way I had not experienced before.</p>
+
+    <h2>The lunch that changed how I thought about my work</h2>
+
+    <p>About six months in, I had lunch with a few of the more senior engineers on my team. One of them, almost in passing, mentioned that he had worked on the implementation of the HDMI protocol and held patents related to that work. Another had been involved in signalling standards that I had encountered only as specification documents in university courses.</p>
+
+    <p>I do not know exactly how to describe what that conversation did to my understanding of where I was and what I was doing. I had been treating my work as software work: C++ code, Qt widgets, file I/O, data structures. Correct and useful, but fundamentally in the same category as any other software I had written. Sitting across from people whose software had shaped how physical signals move between physical chips in physical devices that hundreds of millions of people used every day recategorised something for me.</p>
+
+    <p>Software at this level is not abstract. It is load-bearing. The code I was writing would be used by engineers designing chips. Those chips, once designed, verified, and manufactured, would become the hardware inside products that other engineers would then write software for. The chain runs all the way down, and somewhere near the bottom of it, tools like Allegro X sit quietly making the whole thing possible.</p>
+
+    <p>I had always thought of the hardware-software boundary as a technical distinction. After that lunch I started thinking of it as a philosophical one. The question of where software ends and hardware begins is less interesting than the question of how each constrains the other, and what it means to build software that takes those constraints seriously.</p>
+
+    <h2>What TCL taught me about legacy and longevity</h2>
+
+    <p>A significant part of the Allegro X automation and scripting layer was written in TCL. For anyone who has not encountered it: TCL is a scripting language that predates most of what we now consider modern programming. It is not a language you would choose today. It is a language that exists in production EDA tools because it was chosen decades ago when it was the right choice, and because the cost of replacing it exceeds any benefit of doing so.</p>
+
+    <p>Working with TCL in this context was an exercise in understanding that production software is not designed; it accumulates. The decisions that shaped the system I was working in were made by people who had retired before I started university. Understanding those decisions, not just working around them but actually understanding why they were made, was necessary to make changes that did not break things downstream in ways that would only surface months later in a customer's workflow.</p>
+
+    <p>This is the thing that university projects do not teach and cannot teach: the difference between code that works and code that will still work correctly in ten years when someone who was not involved in writing it needs to change it. Every feature I shipped at Cadence went through a review process that took this seriously. The question was never only "does it work." It was "does it work in a way that the next person who touches this will be able to reason about."</p>
+
+    <h2>Release 23.1 and what it means to ship</h2>
+
+    <p>My work shipped in Release 23.1. I say that simply but it did not feel simple at the time. The release cycle at a company like Cadence is not a deployment pipeline. It is a coordinated process across teams, with stability requirements that reflect the fact that the people using the tool are professionals whose time is expensive and whose tolerance for bugs in their workflow is low. A chip designer who loses work because a symbol editor crashed has lost something that cannot be recovered with a refresh.</p>
+
+    <p>The review and testing requirements that my features had to pass before they could ship were stricter than anything I had encountered before. This was initially frustrating. It became, over time, the thing I valued most about the experience. It taught me that the cost of a bug is not uniform. In some contexts a bug is an inconvenience. In others it is a broken customer workflow, a filed support ticket, a damaged relationship with a team that has been using your tool for fifteen years. Software that takes this seriously looks different from software that does not, and you can tell the difference immediately when you look at the code.</p>
+
+    <h2>Why I left, and what I took with me</h2>
+
+    <p>I left because the question I most wanted to answer was not the one I was positioned to answer at Cadence. The work was real, the environment was exceptional, and the people around me were genuinely among the best engineers I have encountered. But the hardware-software interface I wanted to explore was different from the one I was working on. I wanted to be closer to the physical constraints. I wanted to work on systems where the hardware was not an abstraction managed by a framework but a set of concrete limitations that shaped every architectural decision.</p>
+
+    <p>The medicine reminder project, which I wrote about separately, was already pulling at me before I left. The ESP32-S3 with its 320KB of usable SRAM, the tensor arenas that had to be sized empirically, the inference pipeline that had to fit within a latency budget measured in milliseconds -- these were the kinds of constraints that made Cadence make sense in a new way. The performance work I had watched senior engineers do on symbol loading was the same class of problem as fitting two neural networks onto a microcontroller. The domain was different. The mindset was identical.</p>
+
+    <p>What Cadence gave me was not a set of skills, though it gave me those too. It gave me a way of thinking about software that I do not think I could have arrived at any other way. Software that matters is software that understands what it costs. Every abstraction has a price. Every feature is a negotiation with the system that existed before it. The hardware is never as far away as it looks.</p>
+
+    <hr class="divider">
+
+    <p>If you are interested in how these ideas connect to the embedded systems work that followed, that story is in <a href="tinyml-medicine-reminder.html">the TinyML post</a>. The through line between a production EDA codebase and a $4 microcontroller running two neural networks is, I think, more direct than it appears.</p>
+
+  </article>
+
+  <div class="post-footer">
+    <div class="post-footer-label">More writing</div>
+    <div class="next-posts">
+      <a href="tinyml-medicine-reminder.html" class="next-card">
+        <div class="next-card-label">Previous</div>
+        <div class="next-card-title">How I built a voice-activated medicine reminder on a $4 microcontroller</div>
+      </a>
+      <div class="next-card coming">
+        <div class="next-card-label">Coming soon</div>
+        <div class="next-card-title">The gap between TinyML papers and real deployment</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>Shrivansh Pratap Singh &mdash; Delhi, India &mdash; engrshivansh@gmail.com</p>
+</footer>
+
+</body>
+</html>
