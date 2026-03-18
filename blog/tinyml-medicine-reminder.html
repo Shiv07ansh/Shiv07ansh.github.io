@@ -85,7 +85,7 @@
   <!-- EDIT ZONE: replace or extend any section below -->
   <article class="post-body">
 
-    <p>This post is not a clean technical walkthrough. Those exist, and they are useful, but they leave out the part that actually matters: how a project like this gets built by one person with no funding, no lab, no supervisor, and no idea what they are doing at the start. This is that story.</p>
+    <p>This post is not a clean technical walkthrough. Those exist, and they are useful, but they leave out the part that actually matters: how a project like this gets built by one person with no funding, no lab, no supervisor, and navigating the steep learning curve of bare-metal systems programming from scratch. This is that story.</p>
 
     <p>The paper that came out of this work was accepted to ICDECT-2025 and published in Springer LNNS. It reports 96.4% keyword spotting accuracy and 94.1% intent classification accuracy on an ESP32-S3 microcontroller that costs about four dollars. What it does not report is that the first version of this system had none of that. It had an ultrasonic sensor and an email.</p>
 
@@ -174,7 +174,24 @@ different sense of what it meant to build something real.</p>
 
     <p>I had forgotten, or perhaps never fully appreciated, how much of hardware work is physical. The INMP441 microphone pins needed soldering to headers before they would fit a breadboard. I do not own a soldering iron. I had to find someone who did, explain what I needed, and negotiate the use of their time and equipment. This happened more than once across different components.</p>
 
-    <p>The HC-SR04 ultrasonic sensor outputs 5V on its echo pin. The ESP32-S3 GPIO pins are 3.3V maximum. This is not something you discover in a tutorial. You discover it when the readings start behaving strangely and you trace it back through the datasheet. The fix is a resistor voltage divider: a 10kΩ and a 20kΩ resistor between the echo pin and ground, dropping the signal to 3.33V. Simple once you know it. Invisible until you do.</p>
+    <p>The HC-SR04 ultrasonic sensor outputs 5V on its echo pin. The ESP32-S3 
+GPIO pins are 3.3V maximum. This is not something you discover in a 
+tutorial. You discover it when the readings start behaving strangely 
+and you trace it back through the datasheet. The fix is a resistor 
+voltage divider: a 10kΩ and a 20kΩ resistor between the echo pin and 
+ground, dropping the signal to 3.33V. Simple once you know it. 
+Invisible until you do.</p>
+
+<p>The microphone brought a different class of problem. The INMP441 is an 
+I2S MEMS microphone configured at 16kHz, 16-bit mono. Getting clean 
+audio out of it required understanding the full signal chain: the DMA 
+buffer size determines how much audio you capture before processing, 
+the bit depth determines your dynamic range, and the sampling rate sets 
+your Nyquist ceiling at 8kHz, which is the upper bound of the frequency 
+content your models can ever see. When the WiFi radio was active during 
+capture, it induced noise that showed up as spurious high-frequency 
+content in the spectrogram. You cannot filter what you do not understand 
+is there.</p>
 
     <p>The PAM8403 amplifier would reset the entire board on startup due to a voltage surge on the 5V rail. A 100µF bulk capacitor fixed it. The I2S microphone was picking up interference from the WiFi radio during audio capture. Increasing the DMA buffer size and disabling WiFi power saving during recording windows fixed it. None of these solutions were things I knew going in. Each one was an afternoon of reading datasheets, forum posts, and GitHub issues, followed by a test, followed by either relief or another afternoon.</p>
 
