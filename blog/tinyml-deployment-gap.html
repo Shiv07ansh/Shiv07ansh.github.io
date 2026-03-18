@@ -93,7 +93,13 @@
 
     <h2>What 96.4% actually measures</h2>
 
-    <p>When a paper reports accuracy on a speech task, that number describes performance on a test set. The test set is a held-out portion of the full dataset, usually split randomly or by stratified sampling. If the dataset was collected from one speaker in one environment, the test set is also from one speaker in one environment. The model has never seen those exact samples, but it has seen samples from the same distribution. The accuracy number measures how well the model interpolates within a known distribution, not how well it generalises to distributions it has never encountered.</p>
+    <p>When a paper reports accuracy on a speech task, that number describes performance on a test set. The test set is a held-out portion of the full dataset, usually split randomly or by stratified sampling. If the dataset was collected from one speaker in one environment, the test set is also from one speaker in one environment. The model has never seen those exact samples, but it has seen samples 
+from the same distribution. The accuracy number measures how well the 
+model interpolates within a known distribution, not how well it 
+generalises to distributions it has never encountered. In the research 
+literature this is the distinction between in-distribution performance 
+and out-of-distribution (OOD) robustness. Most TinyML papers report 
+the former. Deployment demands the latter.</p>
 
     <p>This distinction matters enormously in practice and is frequently elided in papers, including my own. The reported accuracy is the best-case number. It is the number you get when the person using the system sounds like the person who built it.</p>
 
