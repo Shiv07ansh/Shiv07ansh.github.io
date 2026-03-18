@@ -3,309 +3,67 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ============================================================
+  EDIT: Page title (shows in browser tab)
+  ============================================================ -->
 <title>How I built a voice-activated medicine reminder on a $4 microcontroller</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ============================================================
+  DO NOT EDIT: Styles
+  ============================================================ -->
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --bg: #F7F5F0;
-    --surface: #EFECE5;
-    --text: #1A1814;
-    --muted: #6B6760;
-    --accent: #2A4D3E;
-    --accent-light: #D4E8DF;
-    --border: #D8D4CB;
-    --tag-bg: #E8E4DB;
-    --white: #FDFCFA;
+    --bg: #F7F5F0; --surface: #EFECE5; --text: #1A1814; --muted: #6B6760;
+    --accent: #2A4D3E; --accent-light: #D4E8DF; --border: #D8D4CB;
+    --tag-bg: #E8E4DB; --white: #FDFCFA;
   }
-
   html { scroll-behavior: smooth; }
-
-  body {
-    font-family: 'Instrument Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.6;
-    font-size: 16px;
-  }
-
-  .container {
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 0 24px;
-  }
-
-  nav {
-    padding: 24px 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  nav .inner {
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 0 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  nav .logo {
-    font-family: 'DM Mono', monospace;
-    font-size: 14px;
-    color: var(--accent);
-    text-decoration: none;
-    letter-spacing: -0.02em;
-  }
-
-  .back-link {
-    font-size: 13px;
-    color: var(--muted);
-    text-decoration: none;
-    letter-spacing: 0.02em;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: color 0.2s;
-  }
-
+  body { font-family: 'Instrument Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; font-size: 16px; }
+  .container { max-width: 680px; margin: 0 auto; padding: 0 24px; }
+  nav { padding: 24px 0; border-bottom: 1px solid var(--border); }
+  nav .inner { max-width: 680px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; }
+  nav .logo { font-family: 'DM Mono', monospace; font-size: 14px; color: var(--accent); text-decoration: none; letter-spacing: -0.02em; }
+  .back-link { font-size: 13px; color: var(--muted); text-decoration: none; display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
   .back-link:hover { color: var(--text); }
-
-  .post-header {
-    padding: 64px 0 48px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .post-meta {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 24px;
-  }
-
-  .post-tag {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--accent);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    background: var(--accent-light);
-    padding: 4px 10px;
-    border-radius: 4px;
-    border: 1px solid var(--accent);
-  }
-
-  .post-date {
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    color: var(--muted);
-  }
-
-  h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(28px, 5vw, 42px);
-    line-height: 1.15;
-    letter-spacing: -0.03em;
-    color: var(--text);
-    margin-bottom: 20px;
-  }
-
-  .post-subtitle {
-    font-size: 18px;
-    color: var(--muted);
-    line-height: 1.6;
-    font-style: italic;
-    font-family: 'DM Serif Display', serif;
-  }
-
-  .post-body {
-    padding: 48px 0;
-  }
-
-  .post-body h2 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 24px;
-    letter-spacing: -0.02em;
-    margin: 48px 0 16px;
-    color: var(--text);
-  }
-
-  .post-body h3 {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    margin: 32px 0 12px;
-    color: var(--text);
-  }
-
-  .post-body p {
-    font-size: 17px;
-    line-height: 1.8;
-    color: var(--text);
-    margin-bottom: 20px;
-  }
-
-  .post-body p.muted {
-    color: var(--muted);
-    font-size: 15px;
-  }
-
-  .post-body a {
-    color: var(--accent);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-
-  .post-body ul, .post-body ol {
-    padding-left: 24px;
-    margin-bottom: 20px;
-  }
-
-  .post-body li {
-    font-size: 17px;
-    line-height: 1.8;
-    margin-bottom: 8px;
-    color: var(--text);
-  }
-
-  .post-body code {
-    font-family: 'DM Mono', monospace;
-    font-size: 13px;
-    background: var(--tag-bg);
-    padding: 2px 6px;
-    border-radius: 4px;
-    border: 1px solid var(--border);
-    color: var(--accent);
-  }
-
-  .post-body pre {
-    background: #1A1814;
-    border-radius: 8px;
-    padding: 24px;
-    margin: 24px 0;
-    overflow-x: auto;
-  }
-
-  .post-body pre code {
-    background: none;
-    border: none;
-    color: #D8D4CB;
-    font-size: 13px;
-    padding: 0;
-    line-height: 1.7;
-  }
-
-  .callout {
-    background: var(--accent-light);
-    border-left: 3px solid var(--accent);
-    border-radius: 0 8px 8px 0;
-    padding: 16px 20px;
-    margin: 28px 0;
-  }
-
-  .callout p {
-    font-size: 15px;
-    color: var(--accent);
-    margin-bottom: 0;
-  }
-
-  .divider {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 48px 0;
-  }
-
-  .spec-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 24px 0;
-    font-size: 14px;
-  }
-
-  .spec-table th {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-align: left;
-    padding: 8px 12px;
-    border-bottom: 1px solid var(--border);
-    background: var(--surface);
-  }
-
-  .spec-table td {
-    padding: 10px 12px;
-    border-bottom: 1px solid var(--border);
-    color: var(--text);
-    vertical-align: top;
-  }
-
+  .post-header { padding: 64px 0 48px; border-bottom: 1px solid var(--border); }
+  .post-meta { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+  .post-tag { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase; background: var(--accent-light); padding: 4px 10px; border-radius: 4px; border: 1px solid var(--accent); }
+  .post-date { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); }
+  h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); line-height: 1.15; letter-spacing: -0.03em; color: var(--text); margin-bottom: 20px; }
+  .post-subtitle { font-size: 18px; color: var(--muted); line-height: 1.6; font-style: italic; font-family: 'DM Serif Display', serif; }
+  .post-body { padding: 48px 0; }
+  .post-body h2 { font-family: 'DM Serif Display', serif; font-size: 24px; letter-spacing: -0.02em; margin: 48px 0 16px; color: var(--text); }
+  .post-body h3 { font-family: 'Instrument Sans', sans-serif; font-size: 16px; font-weight: 600; margin: 32px 0 12px; color: var(--text); }
+  .post-body p { font-size: 17px; line-height: 1.8; color: var(--text); margin-bottom: 20px; }
+  .post-body p.muted { color: var(--muted); font-size: 15px; }
+  .post-body a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+  .post-body ul, .post-body ol { padding-left: 24px; margin-bottom: 20px; }
+  .post-body li { font-size: 17px; line-height: 1.8; margin-bottom: 8px; color: var(--text); }
+  .post-body code { font-family: 'DM Mono', monospace; font-size: 13px; background: var(--tag-bg); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--border); color: var(--accent); }
+  .post-body pre { background: #1A1814; border-radius: 8px; padding: 24px; margin: 24px 0; overflow-x: auto; }
+  .post-body pre code { background: none; border: none; color: #D8D4CB; font-size: 13px; padding: 0; line-height: 1.7; }
+  .callout { background: var(--accent-light); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 28px 0; }
+  .callout p { font-size: 15px; color: var(--accent); margin-bottom: 0; }
+  .divider { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
+  .spec-table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 14px; }
+  .spec-table th { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); background: var(--surface); }
+  .spec-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: top; }
   .spec-table tr:last-child td { border-bottom: none; }
-
-  .spec-table td:first-child {
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    color: var(--muted);
-    white-space: nowrap;
-  }
-
-  .post-footer {
-    padding: 48px 0;
-    border-top: 1px solid var(--border);
-  }
-
-  .post-footer-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 16px;
-  }
-
-  .next-posts {
-    display: grid;
-    gap: 12px;
-  }
-
-  .next-card {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 16px 20px;
-    text-decoration: none;
-    transition: all 0.2s;
-    opacity: 0.6;
-    cursor: default;
-  }
-
-  .next-card-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--muted);
-    margin-bottom: 4px;
-  }
-
-  .next-card-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 16px;
-    color: var(--text);
-  }
-
-  footer {
-    padding: 32px 0;
-    text-align: center;
-    border-top: 1px solid var(--border);
-  }
-
-  footer p {
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    color: var(--muted);
-  }
+  .spec-table td:first-child { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); white-space: nowrap; }
+  .post-footer { padding: 48px 0; border-top: 1px solid var(--border); }
+  .post-footer-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 16px; }
+  .next-posts { display: grid; gap: 12px; }
+  .next-card { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; opacity: 0.6; cursor: default; }
+  .next-card-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+  .next-card-title { font-family: 'DM Serif Display', serif; font-size: 16px; color: var(--text); }
+  footer { padding: 32px 0; text-align: center; border-top: 1px solid var(--border); }
+  footer p { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); }
 </style>
 </head>
 <body>
@@ -320,23 +78,48 @@
 <div class="container">
 
   <header class="post-header">
+
+    <!-- EDIT: tag on the left, date on the right -->
     <div class="post-meta">
       <span class="post-tag">TinyML &mdash; Hardware</span>
       <span class="post-date">March 2026</span>
     </div>
+
+    <!-- EDIT: main title -->
     <h1>How I built a voice-activated medicine reminder on a $4 microcontroller</h1>
+
+    <!-- EDIT: standfirst / subtitle shown under the title -->
     <p class="post-subtitle">The real story behind the paper: what the ESP32-S3 can actually do, why the first architectures failed, and what it took to get two neural networks running simultaneously in 330KB of RAM.</p>
+
   </header>
 
+  <!-- ============================================================
+    EDIT ZONE: everything between here and END EDIT ZONE is the
+    article body. Replace lorem ipsum with real content.
+
+    Available building blocks:
+      <p>                         normal paragraph
+      <p class="muted">           de-emphasised / aside paragraph
+      <h2>                        section heading
+      <h3>                        sub-heading
+      <ul><li>                    bullet list
+      <ol><li>                    numbered list
+      <code>                      inline code snippet
+      <pre><code>                 multi-line code block
+      <div class="callout"><p>    highlighted pull-quote / note
+      <table class="spec-table">  comparison table (see example below)
+      <hr class="divider">        horizontal rule between sections
+      <a href="...">              hyperlink
+  ============================================================ -->
   <article class="post-body">
 
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. The problem I was trying to solve was simple to state: elderly patients miss doses because existing reminders are either too passive to notice or too complicated to interact with. The solution turned out to be anything but simple.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. The problem I was trying to solve was simple to state: elderly patients miss doses because existing reminders are either too passive to notice or too complicated to interact with. The solution turned out to be anything but simple.</p>
 
-    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. What I did not expect was that the hardest part would not be the machine learning. It would be fitting two trained neural networks into a microcontroller with less RAM than a floppy disk.</p>
+    <p>What I did not expect was that the hardest part would not be the machine learning. It would be fitting two trained neural networks into a microcontroller with less RAM than a floppy disk.</p>
 
     <h2>Why the ESP32-S3</h2>
 
-    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. I evaluated thirteen microcontrollers before settling on the ESP32-S3 Mini. The decision came down to three things that no other board in the sub-$10 range offered simultaneously.</p>
+    <p>I evaluated thirteen microcontrollers before settling on the ESP32-S3 Mini. The decision came down to three things that no other board in the sub-$10 range offered simultaneously.</p>
 
     <table class="spec-table">
       <thead>
@@ -370,31 +153,31 @@
       </tbody>
     </table>
 
-    <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. The Arduino Nano scored best on power and cost but cannot run TFLite Micro at all. The Raspberry Pi could run anything I threw at it but drew 650mA and cost $55. The ESP32-S3 was the only device without a critical weakness in any dimension that mattered.</p>
+    <p>The Arduino Nano scored best on power and cost but cannot run TFLite Micro at all. The Raspberry Pi could run anything I threw at it but drew 650mA and cost $55. The ESP32-S3 was the only device without a critical weakness in any dimension that mattered.</p>
 
     <h2>The cascading inference architecture</h2>
 
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. The key architectural insight was that you do not need one model to do everything. You need two models that each do one thing well.</p>
+    <p>The key architectural insight was that you do not need one model to do everything. You need two models that each do one thing well.</p>
 
     <div class="callout">
       <p>The KWS model runs continuously at ~30ms per inference, listening for any medicine-related command. Only when it fires does the SLU model activate. This mirrors exactly how Alexa and Siri work at commercial scale, but running entirely on a $4 chip with no internet connection.</p>
     </div>
 
-    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris. The KWS model is a 2D CNN operating on MFE spectrogram features. It sees 49 frames of 40 mel filterbank values and outputs a binary classification: medicine-related command or noise. It occupies 130KB of SRAM and runs in about 30ms. That is fast enough to process every audio window in real time.</p>
+    <p>The KWS model is a 2D CNN operating on MFE spectrogram features. It sees 49 frames of 40 mel filterbank values and outputs a binary classification: medicine-related command or noise. It occupies 130KB of SRAM and runs in about 30ms.</p>
 
-    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. The SLU model is architecturally completely different. It operates on tokenized text, not audio features. Once KWS fires, the captured audio is transcribed and fed as a token sequence of length 15 into an Embedding layer, then GlobalAveragePooling, then a Dense classifier over 8 intent classes.</p>
+    <p>The SLU model is architecturally completely different. It operates on tokenized text, not audio features. Once KWS fires, the captured audio is transcribed and fed as a token sequence of length 15 into an Embedding layer, then GlobalAveragePooling, then a Dense classifier over 8 intent classes.</p>
 
     <h2>Three things that did not work</h2>
 
     <h3>Bidirectional LSTM</h3>
 
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. My first SLU architecture used a bidirectional LSTM which gave noticeably better validation accuracy. It deployed fine to a TFLite file. It failed completely on device. TFLite Micro does not include the <code>ReverseV2</code> kernel that bidirectional layers require. The error at runtime was an op-resolution failure with no clear message. I spent two days on this before finding the cause buried in a GitHub issue from 2021.</p>
+    <p>My first SLU architecture used a bidirectional LSTM which gave noticeably better validation accuracy. It deployed fine to a TFLite file. It failed completely on device. TFLite Micro does not include the <code>ReverseV2</code> kernel that bidirectional layers require. The error at runtime was an op-resolution failure with no clear message. I spent two days on this before finding the cause buried in a GitHub issue from 2021.</p>
 
     <p class="muted">The fix was straightforward once identified: replace bidirectional with stacked unidirectional layers. Accuracy dropped by less than 1%. The lesson was not to assume that a model that converts to TFLite will actually run on TFLite Micro. They are different runtimes with different op support.</p>
 
     <h3>AllOpsResolver</h3>
 
-    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco. The first time I tried to load both models simultaneously the device rebooted immediately. The cause was <code>AllOpsResolver</code>, which loads every operator TFLite Micro knows about into memory, including all the backpropagation operators used for training. On a device with 320KB of usable SRAM this is immediately fatal.</p>
+    <p>The first time I tried to load both models simultaneously the device rebooted immediately. The cause was <code>AllOpsResolver</code>, which loads every operator TFLite Micro knows about into memory, including all the backpropagation operators used for training. On a device with 320KB of usable SRAM this is immediately fatal.</p>
 
     <pre><code>// This causes SRAM overflow — do not use
 tflite::AllOpsResolver resolver;
@@ -412,7 +195,7 @@ resolver.AddReshape();</code></pre>
 
     <h3>The tensor arena</h3>
 
-    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore. The tensor arena is a statically allocated block that TFLite Micro uses for all intermediate tensors during inference. Getting this wrong either wastes memory or causes a silent crash with no useful error message. There is no way to calculate the correct size analytically. The only method that works is empirical: start high, reduce by 1KB until it crashes, add 2KB margin back.</p>
+    <p>The tensor arena is a statically allocated block that TFLite Micro uses for all intermediate tensors during inference. Getting this wrong either wastes memory or causes a silent crash with no useful error message. There is no way to calculate the correct size analytically. The only method that works is empirical: start high, reduce by 1KB until it crashes, add 2KB margin back.</p>
 
     <p>Both arenas are allocated in PSRAM, not internal SRAM, using <code>EXT_RAM_BSS_ATTR</code>. Without this the firmware stack overflows before inference even starts.</p>
 
@@ -420,11 +203,11 @@ resolver.AddReshape();</code></pre>
 
     <h2>The three-factor confirmation problem</h2>
 
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Voice confirmation alone is not sufficient for the target population. A cognitively impaired user may say yes without having taken their medicine. This is not a theoretical concern. It is the reason simple voice-only systems fail in this context.</p>
+    <p>Voice confirmation alone is not sufficient for the target population. A cognitively impaired user may say yes without having taken their medicine. This is not a theoretical concern. It is the reason simple voice-only systems fail in this context.</p>
 
     <p>The system requires three independent confirmations before logging a dose: the SLU must classify confirm_taken above a confidence threshold, the Hall effect sensor must detect the pillbox lid opening, and the ultrasonic sensor must detect hand presence inside the compartment. All three must occur in sequence within a five-second window.</p>
 
-    <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. This is the part of the paper I am most proud of. It is not clever machine learning. It is careful systems thinking about what a robust real-world solution actually requires.</p>
+    <p>This is the part of the paper I am most proud of. It is not clever machine learning. It is careful systems thinking about what a robust real-world solution actually requires.</p>
 
     <h2>What the numbers mean</h2>
 
@@ -434,12 +217,16 @@ resolver.AddReshape();</code></pre>
 
     <hr class="divider">
 
+    <!-- EDIT: closing paragraph with links -->
     <p>The full implementation is on GitHub at <a href="https://github.com/Shiv07ansh/AIoT-Medicine-Reminder" target="_blank">Shiv07ansh/AIoT-Medicine-Reminder</a> including the training decisions log, hardware setup documentation, and every engineering challenge and workaround encountered. The paper is available as a preprint at <a href="https://zenodo.org/records/19034554" target="_blank">zenodo.org/records/19034554</a>.</p>
 
   </article>
+  <!-- END EDIT ZONE -->
 
   <div class="post-footer">
     <div class="post-footer-label">More writing</div>
+
+    <!-- EDIT: when a post goes live, wrap the div in <a href="..."> and remove opacity -->
     <div class="next-posts">
       <div class="next-card">
         <div class="next-card-label">Coming soon</div>
@@ -454,6 +241,7 @@ resolver.AddReshape();</code></pre>
 
 </div>
 
+<!-- EDIT: footer text -->
 <footer>
   <p>Shrivansh Pratap Singh &mdash; Delhi, India &mdash; engrshivansh@gmail.com</p>
 </footer>
