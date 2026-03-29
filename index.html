@@ -436,6 +436,38 @@
 
   .blog-card.coming-soon { opacity: 0.55; cursor: default; }
   .blog-card.coming-soon:hover { border-color: var(--border); transform: none; }
+	
+	/* 1. The container for the disabled card */
+.blog-card.disabled {
+    position: relative;
+    cursor: not-allowed;
+    pointer-events: none; /* Disables all clicks and hovers */
+    user-select: none;    /* Prevents text highlighting */
+}
+
+/* 2. Apply the blur and fade to the content */
+.blog-card.disabled .blog-content-blur {
+    filter: blur(4px);
+    opacity: 0.5;
+}
+
+/* 3. The "Coming Soon" badge centered on the blur */
+.blog-card.disabled .coming-soon-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    background: var(--accent);
+    color: var(--white);
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
 
   .blog-tag {
     font-family: 'DM Mono', monospace;
@@ -980,13 +1012,16 @@
         </div>
         </a>
 		
-		 <a href="blog/building-for-strangers.html"class="blog-card">
+		 <div class="blog-card disabled">
+    <div class="coming-soon-overlay">Coming Soon</div>
+    <div class="blog-content-blur">
         <div class="blog-tag">Research &mdash; Edge AI</div>
         <div class="blog-title">Building Solutions for people you haven't met, still matters.</div>
         <div class="blog-excerpt">
-          When you build something for someone you have never met, what are your actual obligations to them?
+            When you build something for someone you have never met, what are your actual obligations to them?
         </div>
-        </a>
+    </div>
+</div>
     </div>
   </section>
 
