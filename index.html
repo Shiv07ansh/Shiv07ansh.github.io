@@ -437,36 +437,45 @@
   .blog-card.coming-soon { opacity: 0.55; cursor: default; }
   .blog-card.coming-soon:hover { border-color: var(--border); transform: none; }
 	
-	/* 1. The container for the disabled card */
+/* Container for the disabled state */
 .blog-card.disabled {
     position: relative;
     cursor: not-allowed;
-    pointer-events: none; /* Disables all clicks and hovers */
-    user-select: none;    /* Prevents text highlighting */
+    pointer-events: none;
+    background: var(--surface); /* Slightly different background to show it's locked */
 }
 
-/* 2. Apply the blur and fade to the content */
-.blog-card.disabled .blog-content-blur {
-    filter: blur(4px);
-    opacity: 0.5;
+/* Keep the title clear but dimmed */
+.blog-card.disabled .blog-title {
+    opacity: 0.9;
+    color: var(--text);
+    filter: none; /* Ensure no blur hits the title */
+    position: relative;
+    z-index: 5;
 }
 
-/* 3. The "Coming Soon" badge centered on the blur */
+/* Blur only the tag and the excerpt */
+.blog-card.disabled .blog-tag,
+.blog-card.disabled .blog-excerpt {
+    filter: blur(3px);
+    opacity: 0.4;
+    user-select: none;
+}
+
+/* Sleeker "Coming Soon" badge that doesn't block the title */
 .blog-card.disabled .coming-soon-overlay {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    bottom: 16px; 
+    right: 16px;
     z-index: 10;
     background: var(--accent);
     color: var(--white);
-    padding: 6px 14px;
+    padding: 4px 10px;
     border-radius: 4px;
     font-family: 'DM Mono', monospace;
-    font-size: 11px;
+    font-size: 10px;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    letter-spacing: 0.05em;
 }
 
   .blog-tag {
@@ -1012,14 +1021,15 @@
         </div>
         </a>
 		
-		 <div class="blog-card disabled">
+<div class="blog-card disabled">
     <div class="coming-soon-overlay">Coming Soon</div>
-    <div class="blog-content-blur">
-        <div class="blog-tag">Research &mdash; Edge AI</div>
-        <div class="blog-title">Building Solutions for people you haven't met, still matters.</div>
-        <div class="blog-excerpt">
-            When you build something for someone you have never met, what are your actual obligations to them?
-        </div>
+    
+    <div class="blog-tag">Research &mdash; Edge AI</div>
+    
+    <div class="blog-title">Building Solutions for people you haven't met, still matters.</div>
+    
+    <div class="blog-excerpt">
+        When you build something for someone you have never met, what are your actual obligations to them?
     </div>
 </div>
     </div>
