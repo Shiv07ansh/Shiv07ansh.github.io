@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q01FNVB2N4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-Q01FNVB2N4');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- EDIT: Page title -->
+<title>How I built a voice-activated medicine reminder on a $4 microcontroller</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- DO NOT EDIT: Styles -->
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #F7F5F0; --surface: #EFECE5; --text: #1A1814; --muted: #6B6760;
+    --accent: #2A4D3E; --accent-light: #D4E8DF; --border: #D8D4CB;
+    --tag-bg: #E8E4DB; --white: #FDFCFA;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Instrument Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; font-size: 16px; }
+  .container { max-width: 680px; margin: 0 auto; padding: 0 24px; }
+  nav { padding: 24px 0; border-bottom: 1px solid var(--border); }
+  nav .inner { max-width: 680px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; }
+  nav .logo { font-family: 'DM Mono', monospace; font-size: 14px; color: var(--accent); text-decoration: none; letter-spacing: -0.02em; }
+  .back-link { font-size: 13px; color: var(--muted); text-decoration: none; display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
+  .back-link:hover { color: var(--text); }
+  .post-header { padding: 64px 0 48px; border-bottom: 1px solid var(--border); }
+  .post-meta { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+  .post-tag { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase; background: var(--accent-light); padding: 4px 10px; border-radius: 4px; border: 1px solid var(--accent); }
+  .post-date { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); }
+  h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); line-height: 1.15; letter-spacing: -0.03em; color: var(--text); margin-bottom: 20px; }
+  .post-subtitle { font-size: 18px; color: var(--muted); line-height: 1.6; font-style: italic; font-family: 'DM Serif Display', serif; }
+  .post-body { padding: 48px 0; }
+  .post-body h2 { font-family: 'DM Serif Display', serif; font-size: 24px; letter-spacing: -0.02em; margin: 48px 0 16px; color: var(--text); }
+  .post-body h3 { font-family: 'Instrument Sans', sans-serif; font-size: 16px; font-weight: 600; margin: 32px 0 12px; color: var(--text); }
+  .post-body p { font-size: 17px; line-height: 1.8; color: var(--text); margin-bottom: 20px; }
+  .post-body p.muted { color: var(--muted); font-size: 15px; }
+  .post-body a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+  .post-body ul, .post-body ol { padding-left: 24px; margin-bottom: 20px; }
+  .post-body li { font-size: 17px; line-height: 1.8; margin-bottom: 8px; color: var(--text); }
+  .post-body code { font-family: 'DM Mono', monospace; font-size: 13px; background: var(--tag-bg); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--border); color: var(--accent); }
+  .post-body pre { background: #1A1814; border-radius: 8px; padding: 24px; margin: 24px 0; overflow-x: auto; }
+  .post-body pre code { background: none; border: none; color: #D8D4CB; font-size: 13px; padding: 0; line-height: 1.7; }
+  .callout { background: var(--accent-light); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 28px 0; }
+  .callout p { font-size: 15px; color: var(--accent); margin-bottom: 0; }
+  .divider { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
+  .spec-table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 14px; }
+  .spec-table th { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); background: var(--surface); }
+  .spec-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: top; }
+  .spec-table tr:last-child td { border-bottom: none; }
+  .spec-table td:first-child { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); white-space: nowrap; }
+  .post-footer { padding: 48px 0; border-top: 1px solid var(--border); }
+  .post-footer-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 16px; }
+  .next-posts { display: grid; gap: 12px; }
+  .next-card { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; opacity: 0.6; cursor: default; }
+  .next-card-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+  .next-card-title { font-family: 'DM Serif Display', serif; font-size: 16px; color: var(--text); }
+  footer { padding: 32px 0; text-align: center; border-top: 1px solid var(--border); }
+  footer p { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <a href="../index.html" class="logo">SPS_</a>
+    <a href="../index.html" class="back-link">&larr; Back</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <span class="post-tag">TinyML &mdash; Hardware</span>
+      <span class="post-date">March 2026</span>
+    </div>
+    <h1>How I built a voice-activated medicine reminder on a $4 microcontroller</h1>
+    <p class="post-subtitle">The real story behind the paper: borrowed hardware, a missing mentor, a dataset recorded in my hostel room, and what happens when you refuse to take the easy way out.</p>
+  </header>
+
+  <!-- EDIT ZONE: replace or extend any section below -->
+  <article class="post-body">
+
+    <p>This post is not a clean technical walkthrough. Those exist, and they are useful, but they leave out the part that actually matters: how a project like this gets built by one person with no funding, no lab, no supervisor, and navigating the steep learning curve of bare-metal systems programming from scratch. This is that story.</p>
+
+    <p>The paper that came out of this work was accepted to ICDECT-2025 and published in Springer LNNS. It reports 96.4% keyword spotting accuracy and 94.1% intent classification accuracy on an ESP32-S3 microcontroller that costs about four dollars. What it does not report is that the first version of this system had none of that. It had an ultrasonic sensor and an email.</p>
+
+    <h2>Semester six, a borrowed breadboard, and a missing mentor</h2>
+
+    <p>It started as a semester project. The brief was vague enough that you could build almost anything, and I had been curious about IoT for a while without ever having touched the hardware. The problem was that I had no hardware. No microcontroller, no sensors, no breadboard, nothing. A Raspberry Pi, which most of my classmates were using for their projects, was simply out of budget. Looking back, that constraint saved me from building something generic.</p>
+
+    <p>I found an ESP8266 through someone in my extended friend group who did electronics as a hobby. The breadboard and jumper cables came from the electronics engineering department, borrowed with varying degrees of formality. The ultrasonic sensor came from a third person entirely. My first working circuit was assembled from components that belonged to at least four different people, none of whom fully understood what I was building.</p>
+
+    <p>The first version was genuinely simple. The ultrasonic sensor detected when someone reached into a box. The ESP8266 sent an email when it did. That was it. Medicine taken, email sent. It worked the first time I tested it in my hostel room and I felt disproportionately proud of something that was, in hindsight, about thirty lines of code.</p>
+
+    <p>Around this time, my faculty mentor left for another job. No warning, no handover, no replacement assigned for weeks. I was suddenly working on a graded project with no supervision and no one to ask when things went wrong. At the time this felt like a disaster. In practice it forced something valuable: I had to think independently about every decision, justify it to myself, and live with the consequences when it was wrong. I did not know it then, but this is more or less what research feels like.</p>
+
+    <h2>The itch that would not go away</h2>
+
+    <p>After that semester I moved on. I learned machine learning through subsequent projects, built classifiers, worked with neural networks, deployed things to cloud APIs. But every time a project touched on AI I found myself wanting to push it onto hardware. The cloud felt like cheating somehow. I wanted to know if the device itself could be intelligent.</p>
+
+    <p>That itch sat dormant for two years. Then I joined Cadence Design Systems and spent a year building EDA tooling in C++, working inside constraints that made cloud connectivity not just impractical but architecturally inappropriate. You do not phone home when you are synthesizing silicon. Software has to know what the hardware costs. There is something about working in EDA that recalibrates your sense of 
+what software actually is. You are not moving pixels or serving JSON. 
+The code you write defines constraints that eventually become physical 
+silicon. For the first time, my work felt consequential in a way that 
+is hard to articulate but impossible to ignore once you have felt it. 
+When I came back to the medicine reminder, I came back with a completely 
+different sense of what it meant to build something real.</p>
+
+    <p>The question was no longer "how do I remind someone to take medicine." The question was: can a microcontroller understand what someone says, in real time, with no internet connection, on hardware cheap enough that a family in rural India could actually own it?</p>
+
+    <h2>The constraint that shaped everything</h2>
+
+    <p>No cloud. This was not a preference. It was a hard requirement that eliminated most of the obvious approaches immediately. Speech-to-text APIs are too large to run locally on an MCU. A ChatGPT API call costs money per inference, requires connectivity, and adds hundreds of milliseconds of latency. Even small transformer models were far outside the memory budget of any device I could afford.</p>
+
+    <p>I needed to run inference locally. That meant TensorFlow Lite Micro. That meant I needed a microcontroller that could actually support it. I had moved on from the ESP8266 by now, which had nowhere near enough memory for what I was planning. Finding the right board was its own research project.</p>
+
+    <table class="spec-table">
+      <thead>
+        <tr>
+          <th>Device</th>
+          <th>The problem</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Arduino Nano</td>
+          <td>2KB SRAM. Cannot run TFLite Micro at all.</td>
+        </tr>
+        <tr>
+          <td>Raspberry Pi</td>
+          <td>650mA draw, $55. Wrong tool entirely.</td>
+        </tr>
+        <tr>
+          <td>ESP32 (original)</td>
+          <td>Viable but no PSRAM, tight on memory.</td>
+        </tr>
+        <tr>
+          <td>ESP32-S3 Mini</td>
+          <td>External PSRAM, vector extensions, $5. This one.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>I could not afford the devkit version of the ESP32-S3 with more onboard memory. I ordered the Mini C3 variant and worked within what it had. The external PSRAM turned out to be the feature that made everything else possible.</p>
+
+    <h2>The dataset problem: one voice, one room, one shot</h2>
+
+    <p>Before I could train anything I needed data. There was no existing dataset of medicine-related commands in the conversational style I needed. I recorded everything myself, in my room, across multiple sessions, trying to capture the natural variation in how someone might say "yes I took it" or "remind me in thirty minutes" when they are half-awake at seven in the morning.</p>
+
+    <p>About 2,500 samples for keyword spotting. Around 180 to 190 samples per intent class for the spoken language understanding model, across eight categories. All in .wav format at 16kHz. All me.</p>
+
+    <p class="muted">This is the primary limitation of the work, and I want to be honest about it: the system works well on my voice and degrades on voices it has not seen. That is not a minor caveat. It is the central open problem the work surfaces. I will come back to this.</p>
+
+    <p>Getting the augmentation pipeline right took longer than I expected. Noise addition at different SNR levels, time stretching, pitch shifting. Each technique had to be calibrated so it introduced genuine variance without making the samples unrecognisable. The augmentation script expanded each class by roughly six times. Without it, the models were badly overfit on a single speaker's vocal characteristics.</p>
+
+    <h2>The first model was wrong</h2>
+
+    <p>My first instinct was a single end-to-end model: audio in, intent out. I spent time on this, tuned it, got reasonable validation accuracy in Colab. Then I tried to fit it on the device. It exceeded the SRAM budget immediately and by a large margin. Not close. Not fixable by quantization alone. The architecture was fundamentally wrong for the hardware.</p>
+
+    <p>Going back to the drawing board after investing that much time in a model was genuinely deflating. But it forced a better question: what does the device actually need to do at each moment in time?</p>
+
+    <div class="callout">
+      <p>Most of the time the device is just listening for a trigger. It does not need to understand language. It needs to detect whether a medicine-related sound just happened. That is a much simpler problem. Only when it detects one does it need to understand what was said.</p>
+    </div>
+
+    <p>This is the cascade. A lightweight Keyword Spotting model runs continuously, doing binary detection at about 30ms per inference. When it fires, a heavier Spoken Language Understanding model activates and classifies the intent. Two models, each small enough to fit, each doing one thing well. The architecture is not novel. Alexa and Siri use the same pattern at commercial scale. The difference is that mine runs on a chip that costs less than a cup of tea, with no network connection, in real time.</p>
+
+    <h2>The electronics were a different kind of hard</h2>
+
+    <p>I had forgotten, or perhaps never fully appreciated, how much of hardware work is physical. The INMP441 microphone pins needed soldering to headers before they would fit a breadboard. I do not own a soldering iron. I had to find someone who did, explain what I needed, and negotiate the use of their time and equipment. This happened more than once across different components.</p>
+
+    <p>The HC-SR04 ultrasonic sensor outputs 5V on its echo pin. The ESP32-S3 
+GPIO pins are 3.3V maximum. This is not something you discover in a 
+tutorial. You discover it when the readings start behaving strangely 
+and you trace it back through the datasheet. The fix is a resistor 
+voltage divider: a 10kΩ and a 20kΩ resistor between the echo pin and 
+ground, dropping the signal to 3.33V. Simple once you know it. 
+Invisible until you do.</p>
+
+<p>The microphone brought a different class of problem. The INMP441 is an 
+I2S MEMS microphone configured at 16kHz, 16-bit mono. Getting clean 
+audio out of it required understanding the full signal chain: the DMA 
+buffer size determines how much audio you capture before processing, 
+the bit depth determines your dynamic range, and the sampling rate sets 
+your Nyquist ceiling at 8kHz, which is the upper bound of the frequency 
+content your models can ever see. When the WiFi radio was active during 
+capture, it induced noise that showed up as spurious high-frequency 
+content in the spectrogram. You cannot filter what you do not understand 
+is there.</p>
+
+    <p>The PAM8403 amplifier would reset the entire board on startup due to a voltage surge on the 5V rail. A 100µF bulk capacitor fixed it. The I2S microphone was picking up interference from the WiFi radio during audio capture. Increasing the DMA buffer size and disabling WiFi power saving during recording windows fixed it. None of these solutions were things I knew going in. Each one was an afternoon of reading datasheets, forum posts, and GitHub issues, followed by a test, followed by either relief or another afternoon.</p>
+
+    <h2>Three things that broke spectacularly</h2>
+
+    <h3>The bidirectional LSTM</h3>
+
+    <p>My SLU model initially used bidirectional LSTM layers. Validation accuracy in Colab was noticeably better than with unidirectional layers. The model converted to TFLite without complaint. On device, it failed immediately with an op-resolution error. TFLite Micro does not include the <code>ReverseV2</code> kernel that bidirectional layers require at runtime. The error message was not helpful. Finding the cause took two days and a GitHub issue from 2021 that had twelve upvotes and no official response.</p>
+
+    <p class="muted">I replaced the bidirectional layers with stacked unidirectional ones. Accuracy dropped by less than one percent. Two days of debugging to learn that the simpler architecture was fine all along.</p>
+
+    <h3>AllOpsResolver</h3>
+
+    <p>The first time I loaded both models simultaneously the device rebooted. Immediately. Every time. The cause was <code>AllOpsResolver</code>, which loads every operator TFLite Micro knows about into memory including all the backpropagation operators used for training, which are completely useless for inference. On a device with 320KB of usable SRAM this exhausts memory before you run a single forward pass.</p>
+
+    <pre><code>// Every reboot traced back to this one line
+tflite::AllOpsResolver resolver;
+
+// The fix: register only what the model actually uses
+tflite::MicroMutableOpResolver&lt;8&gt; resolver;
+resolver.AddDepthwiseConv2D();
+resolver.AddConv2D();
+resolver.AddMaxPool2D();
+resolver.AddFullyConnected();
+resolver.AddSoftmax();
+resolver.AddReshape();</code></pre>
+
+    <p>I identified which ops to register by reading the runtime error codes from <code>micro_mutable_op_resolver.h</code>, not from any documentation. The documentation does not tell you this. Switching resolvers saved approximately 40KB of SRAM and stopped the reboots.</p>
+
+    <h3>The C++ segfaults</h3>
+
+    <p>I had been writing C++ at Cadence for a year by this point, in a large production codebase, with experienced engineers around me. Arduino C++ is a different experience. Segfaults with no stack trace, crashes that only appeared after thirty seconds of operation, memory corruption that manifested as wrong inference results rather than crashes. The tensor arena needed <code>alignas(16)</code> to prevent load-store alignment faults. Feature extraction buffers needed to be allocated in PSRAM rather than the stack or they would silently corrupt adjacent memory. None of this was in any tutorial I could find.</p>
+
+    <p>Testing without the hardware was its own problem. The firmware could not be unit tested in any conventional sense. I ended up simulating individual components in isolation and testing inference in Colab, then flashing and testing the integration on device. Each flash cycle was slow. Each test required physical interaction. It was the least efficient development process I have ever worked in, and somehow it produced something that actually worked.</p>
+
+    <h2>The architecture that almost did not fit</h2>
+
+    <p>Quantization was not optional. Float32 models consumed four times the memory of their int8 equivalents and exceeded the budget immediately. Post-training int8 quantization reduced model sizes by about 75% with less than two percent accuracy drop. But even quantized, fitting both models alongside the firmware required moving the tensor arenas out of internal SRAM entirely.</p>
+
+    <pre><code>// Both arenas live in PSRAM, not internal SRAM
+EXT_RAM_BSS_ATTR static uint8_t kws_arena[KWS_ARENA_SIZE];
+EXT_RAM_BSS_ATTR static uint8_t slu_arena[SLU_ARENA_SIZE];</code></pre>
+
+    <p>The arena sizes themselves had to be determined empirically. There is no formula. You start high, run inference on device, reduce by 1KB until it crashes, add 2KB margin. I did this separately for both models, on hardware, which meant many flash cycles and many crashes before I had stable numbers.</p>
+
+    <p>I had spent real time squeezing accuracy out of these models in Colab, going back and fixing the dataset, adjusting augmentation parameters, running ablation studies on architecture choices. Finding out that the bidirectional layers I had worked hard to keep had to be removed entirely was the kind of setback that tests whether you actually care about the outcome or just about your prior work. I cared about the outcome. I removed them.</p>
+
+    <h2>The paper: page limits, LaTeX, and a cold email</h2>
+
+    <p>I had not planned to write a paper. The project had grown well beyond its original scope and I had results that I thought were worth documenting properly, but I had no co-author and no institutional affiliation to submit under. I wrote a cold email to a professor at Delhi Technological University whose research overlapped with what I had built, explained what I had done, and asked if they would be willing to co-author and provide the institutional backing for submission.</p>
+
+    <p>They said yes. I am grateful for that.</p>
+
+    <p>Learning LaTeX in parallel with writing the paper was its own adventure. The conference had a page limit, and the full version of what I wanted to document was significantly longer than what fit. The extended version with all the tables, the full engineering challenges section, and the decision logs is in the GitHub repository. The paper itself was constrained by page count, and paying for extra pages was not something I could afford.</p>
+
+    <h2>What I know now that I did not know at the start</h2>
+
+    <p>The system works. It achieves 96.4% keyword spotting accuracy and 94.1% intent classification accuracy, runs entirely offline, costs under fifteen dollars in hardware, and lasts nearly eight days on a standard power bank. Those numbers are real. They are also from controlled evaluation on my voice, in my environment, under conditions I controlled.</p>
+
+    <p>The hard problem I did not solve is generalisation. The models degrade on accents, on speakers they have not seen, on linguistic variation I did not capture in a dataset recorded by one person in one room. This is not a small limitation. It is the reason the system cannot be deployed as-is to the population it was designed for. Solving it within the memory constraints of an MCU-class device, without retraining on device, is a genuinely hard research problem. It is the one I want to work on next.</p>
+
+    <p>What this project taught me is harder to quantify. I learned that constraints are not obstacles to working around. They are the thing that forces interesting decisions. I learned that being unsupervised is uncomfortable but not fatal. I learned that curiosity sustained over a long enough period will eventually produce something, even when the path is not clear and the resources are borrowed from other people's hobby shelves.</p>
+
+    <p>I started this with an ultrasonic sensor and a function that sent an email. I ended it with a published paper about cascading neural networks on embedded hardware. The distance between those two things was covered entirely on foot, one problem at a time.</p>
+
+    <hr class="divider">
+
+    <p>The complete implementation, including every engineering decision, failure mode, and workaround documented in detail, is at <a href="https://github.com/Shiv07ansh/AIoT-Medicine-Reminder" target="_blank">Shiv07ansh/AIoT-Medicine-Reminder</a>. The paper is available as a preprint at <a href="https://zenodo.org/records/19034554" target="_blank">zenodo.org/records/19034554</a>.</p>
+
+  </article>
+  <!-- END EDIT ZONE -->
+
+  <div class="post-footer">
+    <div class="post-footer-label">More writing</div>
+    <div class="next-posts">
+      <div class="next-card">
+        <div class="next-card-label">Coming soon</div>
+        <div class="next-card-title">What working at Cadence taught me about the hardware-software interface</div>
+      </div>
+      <div class="next-card">
+        <div class="next-card-label">Coming soon</div>
+        <div class="next-card-title">The gap between TinyML papers and real deployment</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>Shivansh Pratap Singh &mdash; Delhi, India &mdash; engrshivansh@gmail.com</p>
+</footer>
+
+</body>
+</html>
