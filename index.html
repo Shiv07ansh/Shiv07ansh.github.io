@@ -790,6 +790,9 @@
   transform: translateY(-2px);
   transition: all 0.2s ease;
 }
+.paper-details .highlight-label:first-of-type {
+  margin-top: 0; /* remove extra top gap */
+}
 </style>
 </head>
 <body>
@@ -871,22 +874,23 @@
         <a href="https://github.com/Shiv07ansh/AIoT-Medicine-Reminder" class="pill" target="_blank">Code</a>
         <span class="pill">DOI: 10.5281/zenodo.19034554</span>
       </div>
+	  
+	  
 	  <div class="paper-details">
-<div class="section-label" style="margin-top: 20px; color: var(--accent);">
-  Technical Highlights
-</div>
+
+  <div class="section-label" style="margin-top: 20px;">
+    Technical Highlights
+  </div>
+
   <div class="paper-expand">
 
-    <ul class="highlight-list">
-      <li>Cascading TinyML pipeline — KWS gates SLU, reducing active inference time by ~70%</li>
-      <li>Triple-factor adherence verification: voice intent + Hall effect lid sensor + ultrasonic hand detection</li>
-      <li>Both models run on 330KB combined SRAM with tensor arenas allocated in PSRAM</li>
-      <li>Optimized architecture for resource-constrained inference: Replaced Bi-directional LSTM with GlobalAveragePooling to circumvent TFLite Micro kernel limitations (ReverseV2).</li>
-      <li>MicroMutableOpResolver over AllOpsResolver — saves ~40KB SRAM by excluding backpropagation ops</li>
-    </ul>	
-	
-		      <div class="highlight-grid">
-      <div class="highlight-item">
+    <!-- 🔥 NEW: Metrics heading -->
+    <div class="highlight-label" style="margin-bottom: 10px;">
+      Performance
+    </div>
+
+    <div class="highlight-grid">
+           <div class="highlight-item">
         <span class="highlight-label">KWS</span>
         <span class="highlight-val">96.4%</span>
         <span class="highlight-sub">accuracy</span>
@@ -907,8 +911,25 @@
         <span class="highlight-sub">total hardware</span>
       </div>
     </div>
-	
-	
+
+    <!-- 🔥 NEW: Contributions heading -->
+    <div class="highlight-label" style="margin-top: 20px; margin-bottom: 10px;">
+      Key Contributions
+    </div>
+
+    <ul class="highlight-list">
+      <li>Cascading TinyML pipeline — KWS gates SLU, reducing active inference time by ~70%</li>
+      <li>Triple-factor adherence verification: voice intent + Hall effect lid sensor + ultrasonic hand detection</li>
+      <li>Both models run on 330KB combined SRAM with tensor arenas allocated in PSRAM</li>
+      <li>Optimized architecture for resource-constrained inference: Replaced Bi-directional LSTM with GlobalAveragePooling to circumvent TFLite Micro kernel limitations (ReverseV2).</li>
+      <li>MicroMutableOpResolver over AllOpsResolver — saves ~40KB SRAM by excluding backpropagation ops</li>
+    </ul>
+
+    <!-- 🔥 NEW: Pipeline heading -->
+    <div class="highlight-label" style="margin-top: 20px; margin-bottom: 10px;">
+      System Architecture
+    </div>
+
 	<div class="pipeline-diagram">
     <div class="pipe-block">
     <span class="pipe-label">Audio Input</span>
@@ -941,6 +962,12 @@
 
   </div>
 </div>
+
+
+
+
+
+
   <a href="blog/tinyml-medicine-reminder.html" class="paper-blog-link">
       Technical Retrospective &rarr;
     </a>
