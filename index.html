@@ -783,6 +783,17 @@
     transform: rotate(-90deg); /* Keeps text readable */
   }
 }
+
+
+/* Subtle interaction upgrade */
+.pipe-block:hover {
+  border-color: var(--accent);
+  background: var(--accent-light);
+  transform: translateY(-2px);
+  transition: all 0.2s ease;
+}
+
+
 </style>
 </head>
 <body>
@@ -800,22 +811,63 @@
 
 <div class="container">
 
-  <section class="hero">
-<div class="hero-label">Independent Researcher, Delhi</div>
-<h1>Shivansh<br><em>Pratap Singh</em></h1>
-<p class="hero-subtitle">Software Engineer &amp; Independent Researcher focusing on the Hardware-Software Interface</p>
-<hr class="hero-rule">
-<p class="hero-bio">
-  I build software that bridges the gap between high-level algorithms and physical silicon. 
-  My experience ranges from engineering industrial-scale EDA tooling in C++ at Cadence Design 
-  Systems to researching performant TinyML inference for ultra-constrained, sub-$15 hardware.
-</p>
-<p class="hero-bio">
-  I am driven by the philosophy that software abstractions must be hardware-aware. Currently, 
-  I am extending embedded toolchains (TFLite Micro) to enable on-device learning and exploring 
-  how machine learning can optimize VLSI design flows. I am actively seeking a Master's at EPFL 
-  to deepen my expertise in computer architecture and hardware-software co-design.
-</p>
+ <section class="hero">
+  <div class="hero-label">Independent Researcher, Delhi</div>
+
+  <h1>Shivansh<br><em>Pratap Singh</em></h1>
+
+  <!-- NEW HOOK -->
+  <p class="hero-subtitle" style="color: var(--accent); font-weight: 500;">
+    Building machine learning systems that run where cloud assumptions break.
+  </p>
+
+  <hr class="hero-rule">
+
+  <p class="hero-bio">
+    I build software that bridges the gap between high-level algorithms and physical silicon. 
+    My experience ranges from engineering industrial-scale EDA tooling in C++ at Cadence Design 
+    Systems to researching performant TinyML inference for ultra-constrained, sub-$15 hardware.
+  </p>
+<section id="interests">
+  <div class="section-label">Research Interests</div>
+
+  <div class="tags">
+    <span class="tag">Edge AI / TinyML</span>
+    <span class="tag">Hardware-aware ML</span>
+    <span class="tag">Embedded Systems</span>
+    <span class="tag">On-device Learning</span>
+    <span class="tag">ML for EDA</span>
+    <span class="tag">Computer Architecture</span>
+  </div>
+</section>
+  <p class="hero-bio">
+    I am driven by the philosophy that software abstractions must be hardware-aware. Currently, 
+    I am extending embedded toolchains (TFLite Micro) to enable on-device learning and exploring 
+    how machine learning can optimize VLSI design flows.
+  </p>
+
+  <hr class="hero-rule">
+
+  <div class="hero-links">
+    <a href="https://github.com/Shiv07ansh" class="btn btn-primary" target="_blank">GitHub</a>
+    <a href="https://zenodo.org/records/19034554" class="btn btn-primary" target="_blank">Published Research</a>
+
+    <a href="cv.pdf" class="btn btn-primary btn-expand" target="_blank">
+      <span class="btn-short">CV</span>
+      <span class="btn-long">Download PDF</span>
+    </a>
+
+    <a href="mailto:engrshivansh@gmail.com" class="btn btn-primary btn-email">
+      <span class="email-label">Email</span>
+      <span class="email-address">engrshivansh@gmail.com</span>
+    </a>
+  </div>
+
+  <!-- NEW SCROLL CUE -->
+  <a href="#research" style="display:block; margin-top:40px; font-size:12px; color:var(--muted); text-decoration:none;">
+    ↓ Explore Research
+  </a>
+</section>
     <hr class="hero-rule">
     <div class="hero-links">
       <a href="https://github.com/Shiv07ansh" class="btn btn-primary" target="_blank">GitHub</a>
@@ -832,57 +884,90 @@
   </section>
 
   <section id="research">
-    <div class="section-label">Research</div>
-		<div class="paper-card">
-		<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-		<div class="paper-venue" style="margin-bottom: 0;">ICDECT-2025 &mdash; Springer LNNS</div>
-		<div style="display: flex; gap: 6px;">
-		<span class="tag">Embedded AI</span>
-		<span class="tag">Systems Research</span>
-		</div>
-		</div>
-      <div class="paper-title">AIoT Health: Medicine Reminder For The Elderly</div>
-      <div class="paper-authors">Shivansh Pratap Singh &amp; Manoj Kumar Gupta &mdash; Delhi Technological University</div>
-      <div class="paper-abstract">
-        Designed and implemented a fully offline, privacy-preserving medicine adherence system on an ESP32-S3. Engineered a cascading TinyML pipeline where a low-power Keyword Spotting (KWS) model gates a high-fidelity Spoken Language Understanding (SLU) classifier to minimize idle-state power consumption. Validated intent recognition through multi-modal physical sensor fusion (Ultrasonic/Hall-effect). Achieved sub-100ms latency on sub-$15 hardware, demonstrating that complex NLP tasks can be decentralized and executed on the extreme edge without cloud dependency.
-      </div>
-      <div class="paper-links">
-        <a href="https://zenodo.org/records/19034554" class="pill accent" target="_blank">Preprint &rarr;</a>
-        <a href="https://github.com/Shiv07ansh/AIoT-Medicine-Reminder" class="pill" target="_blank">Code</a>
-        <span class="pill">DOI: 10.5281/zenodo.19034554</span>
-      </div>
-	  <details class="paper-details">
-  <summary>Technical highlights</summary>
+<div class="paper-authors">
+  Shivansh Pratap Singh &amp; Manoj Kumar Gupta — Delhi Technological University <br>
+  <em>First-author peer-reviewed publication (Springer LNNS, ICDECT 2025)</em>
+</div>
+
+<div class="paper-abstract">
+  Designed and implemented a fully offline, privacy-preserving medicine adherence system on an ESP32-S3.
+</div>
+
+<!-- 🔥 MOVE METRICS OUTSIDE DROPDOWN -->
+<div class="highlight-grid">
+  <div class="highlight-item">
+    <span class="highlight-label">KWS</span>
+    <span class="highlight-val">96.4%</span>
+    <span class="highlight-sub">accuracy</span>
+  </div>
+  <div class="highlight-item">
+    <span class="highlight-label">SLU</span>
+    <span class="highlight-val">94.1%</span>
+    <span class="highlight-sub">accuracy</span>
+  </div>
+  <div class="highlight-item">
+    <span class="highlight-label">Latency</span>
+    <span class="highlight-val">&lt;100ms</span>
+    <span class="highlight-sub">combined</span>
+  </div>
+  <div class="highlight-item">
+    <span class="highlight-label">Unit Cost</span>
+    <span class="highlight-val">~$15</span>
+    <span class="highlight-sub">hardware</span>
+  </div>
+</div>
+
+<!-- KEY CONTRIBUTIONS -->
+<ul class="highlight-list">
+  <li>Cascading TinyML pipeline — reduces active inference by ~70%</li>
+  <li>Multi-modal verification via voice + ultrasonic + Hall-effect sensing</li>
+</ul>
+
+<!-- PIPELINE ALWAYS VISIBLE -->
+<div class="pipeline-diagram">
+  <div class="pipe-block">
+    <span class="pipe-label">Audio Input</span>
+    <span class="pipe-sub">16kHz</span>
+  </div>
+
+  <div class="pipe-arrow">→</div>
+
+  <div class="pipe-block pipe-active">
+    <span class="pipe-label">KWS</span>
+  </div>
+
+  <div class="pipe-arrow pipe-trigger">
+    <span class="pipe-trigger-label">trigger</span> →
+  </div>
+
+  <div class="pipe-block pipe-active">
+    <span class="pipe-label">SLU</span>
+  </div>
+
+  <div class="pipe-arrow">→</div>
+
+  <div class="pipe-block">
+    <span class="pipe-label">Intent</span>
+  </div>
+
+  <div class="pipe-arrow">→</div>
+
+  <div class="pipe-block pipe-action">
+    <span class="pipe-label">Action</span>
+  </div>
+</div>
+
+<!-- 🔽 KEEP REST COLLAPSIBLE -->
+<details class="paper-details">
+  <summary>Full Technical Breakdown</summary>
   <div class="paper-expand">
-    <div class="highlight-grid">
-      <div class="highlight-item">
-        <span class="highlight-label">KWS</span>
-        <span class="highlight-val">96.4%</span>
-        <span class="highlight-sub">accuracy</span>
-      </div>
-      <div class="highlight-item">
-        <span class="highlight-label">SLU</span>
-        <span class="highlight-val">94.1%</span>
-        <span class="highlight-sub">accuracy</span>
-      </div>
-      <div class="highlight-item">
-        <span class="highlight-label">Latency</span>
-        <span class="highlight-val">&lt;100ms</span>
-        <span class="highlight-sub">combined</span>
-      </div>
-      <div class="highlight-item">
-        <span class="highlight-label">Unit Cost (BOM)</span>
-        <span class="highlight-val">~$15</span>
-        <span class="highlight-sub">total hardware</span>
-      </div>
-    </div>
     <ul class="highlight-list">
-      <li>Cascading TinyML pipeline — KWS gates SLU, reducing active inference time by ~70%</li>
-      <li>Triple-factor adherence verification: voice intent + Hall effect lid sensor + ultrasonic hand detection</li>
-      <li>Both models run on 330KB combined SRAM with tensor arenas allocated in PSRAM</li>
-      <li>Optimized architecture for resource-constrained inference: Replaced Bi-directional LSTM with GlobalAveragePooling to circumvent TFLite Micro kernel limitations (ReverseV2).</li>
-      <li>MicroMutableOpResolver over AllOpsResolver — saves ~40KB SRAM by excluding backpropagation ops</li>
-    </ul>	
+      <li>Runs within 330KB SRAM using PSRAM tensor allocation</li>
+      <li>Custom TFLite Micro optimizations (GlobalAveragePooling)</li>
+      <li>MicroMutableOpResolver saves ~40KB memory</li>
+    </ul>
+  </div>
+</details>
 	
 	
 	<div class="pipeline-diagram">
@@ -991,7 +1076,7 @@
   </section>
 
   <section id="blog">
-    <div class="section-label">Writing</div>
+    <div class="section-label">Technical Writing</div>
     <div class="blog-grid">
 
       <a href="blog/tinyml-medicine-reminder.html" class="blog-card">
